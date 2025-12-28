@@ -1,0 +1,143 @@
+<div class="appointments-container">
+  <h1 class="main-heading">Your Appointments</h1>
+  
+  <!-- Tabs -->
+  <div class="tabs">
+    <button
+      class="tab-button"
+      [ngClass]="{ 'tab-active': activeTab === 'upcoming' }"
+      (click)="setActiveTab('upcoming')"
+      [attr.aria-selected]="activeTab === 'upcoming' ? 'true' : 'false'"
+      role="tab"
+      id="upcoming-tab"
+    >
+      <span class="tab-icon">📅</span>
+      Upcoming ({{ upcomingAppointments.length }})
+    </button>
+    <button
+      class="tab-button"
+      [ngClass]="{ 'tab-active': activeTab === 'past' }"
+      (click)="setActiveTab('past')"
+      [attr.aria-selected]="activeTab === 'past' ? 'true' : 'false'"
+      role="tab"
+      id="past-tab"
+    >
+      <span class="tab-icon">✅</span>
+      Past ({{ pastAppointments.length }})
+    </button>
+  </div>
+  
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading appointments...</p>
+  </div>
+  
+  <!-- Tab Content -->
+  <div class="tab-content" [ngClass]="{ 'fade-in': !loading }" *ngIf="!loading">
+    <!-- Upcoming Appointments -->
+    <div *ngIf="activeTab === 'upcoming'" role="tabpanel" aria-labelledby="upcoming-tab">
+      <div *ngIf="upcomingAppointments.length === 0" class="empty-state">
+        <div class="empty-icon">📋</div>
+        <h3>No upcoming appointments</h3>
+        <p>You don't have any scheduled appointments coming up.</p>
+      </div>
+      <div *ngIf="upcomingAppointments.length > 0" class="appointment-grid">
+        <div *ngFor="let app of upcomingAppointments; trackBy: trackByAppointmentId" class="appointment-card upcoming-card">
+          <div class="card-header">
+            <div class="patient-info">
+              <h3 class="patient-name">{{ app.patientName }}</h3>
+              <span class="patient-label">Patient</span>
+            </div>
+            <div class="appointment-status">
+              <span class="status-badge status-upcoming">
+                <span class="status-icon">🕒</span>
+                Upcoming
+              </span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="appointment-details">
+              <div class="detail-item">
+                <span class="icon">📋</span>
+                <span class="label">Type:</span>
+                <span class="value appointment-type">{{ app.appointmentType  }}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-icon">📅</span>
+                <span class="detail-label">Date:</span>
+                <span class="detail-value">{{ formatDate(app.date) }}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-icon">⏰</span>
+                <span class="detail-label">Time:</span>
+                <span class="detail-value">{{ app.time }}</span>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    
+    <!-- Past Appointments -->
+    <div *ngIf="activeTab === 'past'" role="tabpanel" aria-labelledby="past-tab">
+      <div *ngIf="pastAppointments.length === 0" class="empty-state">
+        <div class="empty-icon">📚</div>
+        <h3>No past appointments</h3>
+        <p>You haven't completed any appointments yet.</p>
+      </div>
+      <div *ngIf="pastAppointments.length > 0" class="appointment-grid">
+        <div *ngFor="let app of pastAppointments; trackBy: trackByAppointmentId" class="appointment-card past-card">
+          <div class="card-header">
+            <div class="patient-info">
+              <h3 class="patient-name">{{ app.patientName }}</h3>
+              <span class="patient-label">Patient</span>
+            </div>
+            <div class="appointment-status">
+              <span class="status-badge status-completed">
+                <span class="status-icon">✅</span>
+                Completed
+              </span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="appointment-details">
+              <div class="detail-item">
+                <span class="icon">📋</span>
+                <span class="label">Type:</span>
+                <span class="value appointment-type">{{ app.appointmentType  }}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-icon">📅</span>
+                <span class="detail-label">Date:</span>
+                <span class="detail-value">{{ formatDate(app.date) }}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-icon">⏰</span>
+                <span class="detail-label">Time:</span>
+                <span class="detail-value">{{ app.time }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <button 
+              class="action-button upload-button"
+              [disabled]="app._id ? uploading[app._id] : false"
+              (click)="openUpload(app)"
+              [attr.aria-busy]="app._id ? (uploading[app._id] ? 'true' : 'false') : 'false'"
+            >
+              <span class="button-icon" *ngIf="!uploading[app._id!]">📄</span>
+              <span class="button-spinner" *ngIf="uploading[app._id!]"></span>
+              {{ uploading[app._id!] ? 'Uploading...' : 'Upload Medical Record' }}
+            </button>
+            <!-- <button class="action-button view-button" (click)="viewMedicalRecord(app._id)">
+              <span class="button-icon">👁️</span>
+              View Record
+            </button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,161 @@
+<div class="blog-container">
+  <!-- Blog Title -->
+  <h1 class="blog-title mat-headline-5">Blog & News</h1>
+
+  <!-- Featured Article -->
+  <ng-container *ngIf="!loading && featuredPost">
+    <mat-card
+      class="featured-card"
+      [style.backgroundImage]="'url(' + featuredPost.image + ')'"
+    >
+      <div class="overlay"></div>
+      <div class="featured-content">
+          <mat-chip color="primary" selected>FEATURED</mat-chip>
+        <h2 class="mat-headline-6 featured-title">{{ featuredPost.title }}</h2>
+        <p class="mat-body-1 featured-excerpt">{{ featuredPost.excerpt }}</p>
+        <div class="meta-info">
+          <mat-icon>person</mat-icon>
+          <span class="mat-body-2">{{ featuredPost.author }}</span>
+          <mat-icon class="ml-2">calendar_today</mat-icon>
+          <span class="mat-body-2">{{ featuredPost.date | date: 'longDate' }}</span>
+        </div>
+      </div>
+    </mat-card>
+  </ng-container>
+
+  <!-- Loading Skeleton for Featured Article -->
+  <ng-container *ngIf="loading">
+    <mat-card class="featured-card skeleton">
+      <ngx-skeleton-loader
+        [theme]="{ height: '300px', width: '100%', 'border-radius': '8px' }"
+        animation="progress"
+      ></ngx-skeleton-loader>
+    </mat-card>
+  </ng-container>
+
+  <!-- Search and Filter -->
+  <mat-card class="filter-card">
+    <!-- Search Bar -->
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search articles...</mat-label>
+      <input
+        matInput
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchChange()"
+        placeholder="Search articles..."
+      />
+      <mat-icon matPrefix>search</mat-icon>
+      <button
+        *ngIf="searchTerm"
+        mat-icon-button
+        matSuffix
+        (click)="clearSearch()"
+        aria-label="Clear search"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <!-- Category Tabs -->
+    <mat-tab-group
+      [(selectedIndex)]="selectedTabIndex"
+      (selectedTabChange)="onCategoryChange($event)"
+      mat-stretch-tabs="false"
+      class="category-tabs"
+    >
+    <mat-tab *ngFor="let cat of categories; let i = index" [label]="getTabLabel(cat)">
+    </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+
+  <!-- Article Grid -->
+  <div class="articles-section">
+    <ng-container *ngIf="loading">
+      <div class="grid">
+        <mat-card *ngFor="let _ of [1, 2, 3, 4, 5, 6]" class="article-card skeleton">
+          <ngx-skeleton-loader
+            [theme]="{ height: '140px', width: '100%', 'border-radius': '8px' }"
+            animation="progress"
+          ></ngx-skeleton-loader>
+          <mat-card-content>
+            <ngx-skeleton-loader
+              [theme]="{ height: '32px', width: '80%', 'border-radius': '4px' }"
+              animation="progress"
+            ></ngx-skeleton-loader>
+            <ngx-skeleton-loader
+              [theme]="{ height: '20px', width: '100%', 'border-radius': '4px' }"
+              animation="progress"
+            ></ngx-skeleton-loader>
+            <ngx-skeleton-loader
+              [theme]="{ height: '20px', width: '100%', 'border-radius': '4px' }"
+              animation="progress"
+            ></ngx-skeleton-loader>
+            <ngx-skeleton-loader
+              [theme]="{ height: '20px', width: '60%', 'border-radius': '4px' }"
+              animation="progress"
+            ></ngx-skeleton-loader>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!loading">
+      <ng-container *ngIf="filteredPosts.length > 0; else noArticles">
+        <div class="grid">
+          <mat-card *ngFor="let post of currentPosts" class="article-card">
+            <button
+              mat-icon-button
+              class="save-button"
+              [attr.aria-label]="savedArticles.includes(post.id) ? 'Unsave article' : 'Save article'"
+              (click)="toggleSaveArticle(post.id)"
+            >
+              <mat-icon *ngIf="savedArticles.includes(post.id)" color="primary">bookmark</mat-icon>
+              <mat-icon *ngIf="!savedArticles.includes(post.id)">bookmark_border</mat-icon>
+            </button>
+            <mat-card-header>
+              <img mat-card-image [src]="post.image" [alt]="post.title" class="article-image" />
+            </mat-card-header>
+            <mat-card-content class="article-content">
+              <h3 class="mat-subtitle-1">{{ post.title }}</h3>
+              <p class="mat-body-2 excerpt">{{ post.excerpt }}</p>
+              <div class="article-meta">
+                <mat-chip color="primary" variant="outlined" class="category-chip">
+                  <mat-icon class="chip-icon">local_offer</mat-icon>
+                  <span class="chip-label">{{ post.category }}</span>
+                </mat-chip>
+                
+                <span class="mat-caption read-time">{{ post.readTime }}</span>
+              </div>
+              <div class="date-info">
+                <mat-icon class="date-icon">calendar_today</mat-icon>
+                <span class="mat-caption">{{ post.date | date: 'mediumDate' }}</span>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-container>
+
+      <ng-template #noArticles>
+        <div class="no-articles">
+          <h3 class="mat-subtitle-1">No articles found</h3>
+          <p class="mat-body-2">Try adjusting your search or filters to find what you're looking for.</p>
+          <button mat-stroked-button (click)="resetFilters()">Reset Filters</button>
+        </div>
+      </ng-template>
+    </ng-container>
+  </div>
+
+  <!-- Pagination -->
+  <ng-container *ngIf="!loading && filteredPosts.length > 0">
+    <div class="pagination">
+      <mat-paginator
+        [length]="filteredPosts.length"
+        [pageSize]="postsPerPage"
+        [pageIndex]="page - 1"
+        (page)="handlePageChange($event)"
+        [showFirstLastButtons]="true"
+        aria-label="Select page of blog posts"
+      ></mat-paginator>
+    </div>
+  </ng-container>
+</div>

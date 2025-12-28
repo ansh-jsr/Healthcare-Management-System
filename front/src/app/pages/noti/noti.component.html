@@ -1,0 +1,80 @@
+<div class="notification-container">
+  <h2>Send Notification</h2>
+
+  <form [formGroup]="notificationForm" (ngSubmit)="sendNotification()">
+    <div class="form-group">
+      <label for="message">Message</label>
+      <textarea
+        id="message"
+        formControlName="message"
+        required
+        placeholder="Enter your message"
+      ></textarea>
+    </div>
+
+    <div class="form-group checkbox-group">
+      <input
+        type="checkbox"
+        id="sendToAll"
+        formControlName="sendToAll"
+      />
+      <label for="sendToAll">Send to all patients</label>
+    </div>
+
+    <div class="form-group" *ngIf="!notificationForm.value.sendToAll">
+      <label for="receiverEmail">Receiver Patient Email</label>
+      <input
+         id="receiverEmail"
+          formControlName="receiverEmail"
+          type="email"
+        placeholder="Enter Patient Email"
+        required
+      />
+    </div>
+
+    <button
+      type="submit"
+      [disabled]="notificationForm.invalid || (!notificationForm.value.sendToAll && !notificationForm.value.receiverEmail)"
+    >
+      Send Notification
+    </button>
+  </form>
+
+  <div class="message-container" *ngIf="success || error || message">
+    <div
+      class="message"
+      [ngClass]="{
+        'success': success,
+        'error': error,
+        'loading': message
+      }"
+    >
+      <svg
+        *ngIf="success"
+        class="message-icon"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M5 13l4 4L19 7" />
+      </svg>
+      <svg
+        *ngIf="error"
+        class="message-icon"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <svg
+        *ngIf="message"
+        class="message-icon loading-icon"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+      </svg>
+      <span>{{ success || error || message }}</span>
+    </div>
+  </div>
+</div>

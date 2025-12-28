@@ -1,0 +1,262 @@
+<div class="patient-detail-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <!-- Error State -->
+  <mat-card *ngIf="error" class="error-card">
+    <mat-card-content>
+      <mat-icon color="warn">error</mat-icon>
+      {{ error }}
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Patient Not Found -->
+  <mat-card *ngIf="!loading && !error && !patient" class="warning-card">
+    <mat-card-content>
+      <mat-icon color="warn">warning</mat-icon>
+      Patient not found.
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Patient Details -->
+  <ng-container *ngIf="!loading && !error && patient">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-left">
+        <a [routerLink]="['/dashboard/patients']" mat-icon-button color="primary">
+          <mat-icon>arrow_back</mat-icon>
+        </a>
+        <h1 class="mat-headline-5">Patient Profile</h1>
+      </div>
+      
+    </div>
+
+    <!-- Patient Summary Card -->
+    <mat-card class="summary-card">
+      <mat-card-content>
+        <div class="grid-container">
+          <!-- Avatar -->
+          <div class="avatar-section">
+            <div class="avatar">
+              {{ patient.firstName.charAt(0) }}
+            </div>
+          </div>
+
+          <!-- Left Column -->
+          <div class="info-left">
+            <h2 class="mat-headline-6 patient-name">{{ patient.firstName }} {{ patient.lastName }}</h2>
+            <!-- <p class="mat-body-1"><span class="bold">ID:</span> {{ patient._id }}</p> -->
+            <div class="info-item">
+              <mat-icon color="primary">person</mat-icon>
+              <span>{{ patient.gender }}, {{ calculateAge(patient.dateOfBirth) }} years</span>
+            </div>
+            <div class="info-item">
+              <mat-icon color="primary">calendar_today</mat-icon>
+              <span>DOB: {{ formatDate(patient.dateOfBirth) }}</span>
+            </div>
+            <div class="info-item">
+              <mat-icon color="primary">phone</mat-icon>
+              <span>{{ patient.contactNumber }}</span>
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="info-right">
+            <div class="info-item">
+              <mat-icon color="primary">email</mat-icon>
+              <span>{{ patient.email }}</span>
+            </div>
+            <div class="info-item">
+              <mat-icon color="primary">home</mat-icon>
+              <span>{{ patient.address }}</span>
+            </div>
+            <div class="info-item">
+              <mat-icon color="primary">biotech</mat-icon>
+              <span>Blood Type: {{ patient.bloodType }}</span>
+            </div>
+            <div class="info-item">
+              <mat-icon color="primary">schedule</mat-icon>
+              <span>Registered: {{ formatDate(patient.registrationDate) }}</span>
+            </div>
+            <div class="status-chip">
+              <mat-chip
+                [color]="patient.status === 'active' ? 'primary' : 'warn'"
+                selected
+              >
+                {{ patient.status === 'active' ? 'Active' : 'Inactive' }}
+              </mat-chip>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Tabs -->
+    <mat-tab-group
+      [(selectedIndex)]="tabValue"
+      (selectedTabChange)="handleTabChange($event)"
+      class="tabs"
+      mat-stretch-tabs
+    >
+      <mat-tab label="Medical Records"></mat-tab>
+      <mat-tab label="Personal Information"></mat-tab>
+      <mat-tab label="Insurance Details"></mat-tab>
+    </mat-tab-group>
+
+    <!-- Tab Panels -->
+    <div class="tab-content">
+      <!-- Medical Records Tab -->
+      <!-- Medical Records Tab -->
+<ng-container *ngIf="tabValue === 0">
+  <div class="section-header">
+    <h3 class="mat-subtitle-1">Medical History</h3>
+  </div>
+
+  <!-- Loading State for Records -->
+  <div *ngIf="loadingRecords" class="loading-container">
+    <mat-spinner diameter="40"></mat-spinner>
+    <span class="loading-text">Loading medical records...</span>
+  </div>
+
+  <!-- Records Error -->
+  <mat-card *ngIf="recordsError && !loadingRecords" class="error-card">
+    <mat-card-content>
+      <mat-icon color="warn">error</mat-icon>
+      {{ recordsError }}
+      <button mat-button color="primary" (click)="refreshRecords()">
+        <mat-icon>refresh</mat-icon>
+        Retry
+      </button>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Medical Records Content -->
+ <ng-container *ngIf="!loadingRecords && !recordsError">
+  <ng-container *ngIf="records.length > 0; else noRecords">
+    <ng-container *ngFor="let record of records">
+     <mat-card class="record-card">
+  <mat-card-title>{{ record.title }}</mat-card-title>
+  <mat-card-subtitle>{{ record.recordType }}</mat-card-subtitle>
+
+  <mat-card-content>
+    <div class="record-info">
+      <p *ngIf="record.description">
+        <strong>Description:</strong> {{ record.description }}
+      </p>
+      <p *ngIf="record.doctor">
+        <strong>Doctor:</strong> {{ record.doctor }}
+      </p>
+      <p>
+        <strong>Date:</strong> {{ record.recordDate | date: 'mediumDate' }}
+      </p>
+    </div>
+
+    <div *ngIf="record.fileUrl || record.ipfsHash" class="file-section">
+      <mat-icon class="attachment-icon">attach_file</mat-icon>
+      <a
+        [href]="record.fileUrl || ('https://ipfs.io/ipfs/' + record.ipfsHash)"
+        target="_blank"
+        rel="noopener noreferrer"
+        [attr.download]="record.fileName || 'document'"
+      >
+        Download & View Document
+      </a>
+    </div>
+  </mat-card-content>
+      </mat-card>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #noRecords>
+    <mat-card class="no-records">
+      <mat-card-content>
+        <mat-icon>folder_open</mat-icon>
+        <h3>No medical records found for this patient</h3>
+        <p>New records will appear here when available</p>
+        <button mat-raised-button color="primary" (click)="handleAddRecord()" class="action-button" [routerLink]="['/upload']">
+          <mat-icon>add</mat-icon>
+          Add First Record
+        </button>
+      </mat-card-content>
+    </mat-card>
+  </ng-template>
+</ng-container>
+
+</ng-container>
+      <!-- Personal Information Tab -->
+      <ng-container *ngIf="tabValue === 1">
+        <mat-card class="tab-panel">
+          <mat-card-content>
+            <h3 class="mat-subtitle-1">Personal Details</h3>
+            <mat-divider class="divider"></mat-divider>
+            <div class="grid-container">
+              <div class="info-section">
+                <h4 class="mat-subtitle-2">Allergies</h4>
+                  <mat-chip
+                    *ngFor="let allergy of patient.allergies"
+                    color="warn"
+                    variant="outlined"
+                    class="allergy-chip"
+                  >
+                    {{ allergy }}
+                  </mat-chip>
+                  <p *ngIf="!patient.allergies || patient.allergies.length === 0" class="mat-body-2">
+                    No known allergies
+                  </p>
+              </div>
+              <div class="info-section">
+                <h4 class="mat-subtitle-2">Emergency Contact</h4>
+                <ng-container *ngIf="patient.emergencyContact && (patient.emergencyContact.name || patient.emergencyContact.relationship || patient.emergencyContact.phone); else noEmergencyContact">
+                  <p class="mat-body-2" *ngIf="patient.emergencyContact.name">
+                    <span class="bold">Name:</span> {{ patient.emergencyContact.name }}
+                  </p>
+                  <p class="mat-body-2" *ngIf="patient.emergencyContact.relationship">
+                    <span class="bold">Relationship:</span> {{ patient.emergencyContact.relationship }}
+                  </p>
+                  <p class="mat-body-2" *ngIf="patient.emergencyContact.phone">
+                    <span class="bold">Phone:</span> {{ patient.emergencyContact.phone }}
+                  </p>
+                </ng-container>
+
+                <!-- Fallback if emergencyContact object is missing or empty -->
+                <ng-template #noEmergencyContact>
+                  <p class="mat-body-2">No emergency contact information provided.</p>
+                </ng-template>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </ng-container>
+
+      <!-- Insurance Details Tab -->
+      <ng-container *ngIf="tabValue === 2">
+        <mat-card class="tab-panel">
+          <mat-card-content>
+            <h3 class="mat-subtitle-1">Insurance Information</h3>
+            <mat-divider class="divider"></mat-divider>
+            <div class="grid-container">
+               <div class="info-section" *ngIf="patient.insurance && (patient.insurance.provider || patient.insurance.policyNumber || patient.insurance.expiryDate); else noInsuranceInfo">
+                <p class="mat-body-1" *ngIf="patient.insurance.provider">
+                  <span class="bold">Provider:</span> {{ patient.insurance.provider }}
+                </p>
+                <p class="mat-body-1" *ngIf="patient.insurance.policyNumber">
+                  <span class="bold">Policy Number:</span> {{ patient.insurance.policyNumber }}
+                </p>
+                <p class="mat-body-1" *ngIf="patient.insurance.expiryDate">
+                  <span class="bold">Expiry Date:</span> {{ formatDate(patient.insurance.expiryDate) }}
+                </p>
+              </div>
+
+        <!-- Fallback if insurance info is not available -->
+        <ng-template #noInsuranceInfo>
+          <p class="mat-body-2">No insurance information available.</p>
+        </ng-template>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </ng-container>
+    </div>
+  </ng-container>
+</div>

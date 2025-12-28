@@ -1,0 +1,512 @@
+
+.dashboard {
+  padding: 16px;
+}
+
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+
+  .dashboard-title {
+    font-weight: bold;
+    margin-bottom: 4px;
+    font-size: 2rem;
+  }
+
+  .dashboard-subtitle {
+    color: rgba(0, 0, 0, 0.6);
+    margin: 0;
+  }
+}
+
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+
+  h3 {
+    margin-left: 16px;
+  }
+}
+
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 960px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.stat-card {
+  padding: 16px;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  
+  .stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+
+  .stat-title {
+    font-size: 0.875rem;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .stat-icon-container {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+  }
+
+  .stat-value {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+
+  .stat-change {
+    display: flex;
+    align-items: center;
+    color: #4caf50;
+    
+    .trend-icon {
+      font-size: 16px;
+      margin-right: 4px;
+    }
+    
+    .trend-text {
+      font-size: 0.875rem;
+    }
+  }
+}
+
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  
+  @media (min-width: 960px) {
+    grid-template-columns: 8fr 4fr;
+  }
+}
+
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  
+  h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+
+  .view-all-btn {
+    display: flex;
+    align-items: center;
+  }
+}
+
+
+.department-card {
+  margin-bottom: 24px;
+  padding: 16px;
+  /* CHANGE: Added max-width to decrease the width of this section */
+  max-width: 100%;
+  margin-bottom: 110px;
+  .department-list {
+    margin-top: 16px;
+  }
+  
+  .department-item {
+    margin-bottom: 16px;
+    
+    .department-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+      font-size: 0.875rem;
+    }
+    
+    .department-progress {
+      height: 8px;
+      border-radius: 4px;
+      
+      /* CHANGE: Increased size of progress bar */
+      &.enhanced-progress {
+        height: 12px;
+        border-radius: 6px;
+      }
+    }
+  }
+}
+
+
+.activity-card {
+  padding: 16px;
+  
+  .activity-avatar {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin-top: 0.6rem;
+  }
+  
+  .activity-description {
+    display: flex;
+    align-items: center;
+    
+    span {
+      font-weight: 500;
+      font-size: 0.875rem;
+    }
+  }
+  
+  .activity-chip {
+    margin-left: 8px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    height: 20px;
+  }
+  
+  .activity-time {
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .view-all-container {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+
+.appointments-card {
+  margin-bottom: 24px;
+  padding: 16px;
+  
+  .date-chip {
+    height: 24px;
+    font-size: 0.75rem;
+    
+    mat-icon {
+      font-size: 16px;
+      height: 16px;
+      width: 16px;
+      margin-right: 4px;
+    }
+  }
+  
+  /* CHANGE: Complete overhaul of appointment styles to match the image */
+  .appointment-list {
+    margin-top: 16px;
+  }
+  
+  .appointment-card {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    
+    &:last-child {
+      border-bottom: none;
+    }
+    
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.02);
+    }
+  }
+  
+  .appointment-patient-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .patient-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 12px;
+  }
+  
+  .patient-details {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .patient-name {
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: #263238;
+    margin-bottom: 4px;
+  }
+  
+  .appointment-time {
+    display: flex;
+    align-items: center;
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.6);
+    
+    mat-icon {
+      font-size: 14px;
+      height: 14px;
+      width: 14px;
+      margin-right: 4px;
+    }
+  }
+  
+  .appointment-actions {
+    display: flex;
+    align-items: center;
+  }
+  
+  .appointment-type-container {
+    margin-right: 8px;
+  }
+  
+  .appointment-type-badge {
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+  
+  .info-button {
+    color: rgba(0, 0, 0, 0.38);
+    
+    &:hover {
+      color: rgba(0, 0, 0, 0.6);
+    }
+  }
+  
+  .view-schedule-link {
+    color: #3f51b5;
+    font-weight: 500;
+  }
+  
+  
+  .consultation-chip {
+    background-color: rgba(25, 118, 210, 0.1);
+    color: #1976d2;
+  }
+  
+  .lab-review-chip {
+    background-color: rgba(237, 108, 2, 0.1);
+    color: #ed6c02;
+  }
+  
+  .follow-up-chip {
+    background-color: rgba(46, 125, 50, 0.1);
+    color: #2e7d32;
+  }
+  .default-avatar {
+    background-color: #ADD8E6!important; /* Blue background */
+    color: white !important;             /* White text */
+    border-radius: 50% !important;       /* Circular shape */
+    width: 40px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-weight: bold !important;
+    font-size: 1rem !important;
+    line-height: 1;
+    top: -1px;
+  }
+  
+  .appointment-item mat-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.patient-name {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #263238;
+}
+
+.appointment-details {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.6);
+  
+}
+
+.appointment-time mat-icon {
+  font-size: 16px;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+.type-chip {
+  height: 20px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  border-radius: 10px;
+  padding: 0 8px;
+  margin-left: 1rem; 
+}
+.consultation-chip {
+  background-color: rgba(25, 118, 210, 0.1);
+  color: #1976d2;
+}
+
+.lab-review-chip {
+  background-color: rgba(237, 108, 2, 0.1);
+  color: #ed6c02;
+}
+
+.follow-up-chip {
+  background-color: rgba(46, 125, 50, 0.1);
+  color: #2e7d32;
+}
+
+.check-up-chip {
+  background-color: rgba(0, 172, 193, 0.1);
+  color: #00acc1;
+}
+mat-list-item button[mat-icon-button] {
+  color: rgba(0, 0, 0, 0.38);
+  transition: color 0.2s;
+
+  &:hover {
+    color: rgba(0, 0, 0, 0.6);
+  }
+}
+.view-all-container {
+  text-align: center;
+  margin-top: 12px;
+
+  a {
+    color: #3f51b5;
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+}
+
+}
+
+
+.system-health-card {
+  padding: 16px;
+  margin-top: 8.2rem;
+  .card-header {
+    display: flex;
+    align-items: center;
+    
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+  
+  .health-item {
+    margin-bottom: 16px;
+    
+    .health-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+      font-size: 0.875rem;
+    }
+    
+    .health-value {
+      display: flex;
+      align-items: center;
+      
+      strong {
+        margin-right: 8px;
+      }
+    }
+    
+    .status-icon {
+      font-size: 16px;
+    }
+    
+    .excellent-status {
+      color: #4caf50;
+    }
+    
+    .good-status {
+      color: #1976d2;
+    }
+    
+    .normal-status {
+      color: #ed6c02;
+    }
+    
+    .health-progress {
+      height: 6px;
+      border-radius: 3px;
+    }
+  }
+  
+  .system-updated {
+    margin-top: 24px;
+    text-align: center;
+    
+    span {
+      font-size: 0.75rem;
+      color: rgba(0, 0, 0, 0.6);
+    }
+  }
+}
+button[mat-raised-button] {
+  background-color: #3b82f6;
+  color: #ffffff;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0 24px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+button[mat-raised-button]:hover {
+  background-color: #2563eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+}
+

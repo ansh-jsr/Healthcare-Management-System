@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+/* styles.css */
+@font-face {
+    font-family: 'Material Icons';
+    src:  format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  
+  @use '@angular/material' as mat;
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

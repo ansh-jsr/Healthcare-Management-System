@@ -1,0 +1,529 @@
+/* Main Container for Booking */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: #F5FAFF;
+  font-family: 'Arial', sans-serif;
+  color: #000000;
+}
+
+/* Book Appointment Styles */
+.book-appointment.card {
+  background: white;
+  border: 1px solid #E6E6E6;
+  border-radius: 8px;
+  padding: 40px;
+  margin-bottom: 40px;
+}
+
+.book-appointment h2 {
+  color: #007ACC;
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0 0 35px 0;
+}
+
+.appointment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.form-group label {
+  color: #000000;
+  font-size: 20px;
+  font-weight: normal;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid #E6E6E6;
+  border-radius: 4px;
+  font-size: 20px;
+  background-color: #F5F5F5;
+  color: #000000;
+  box-sizing: border-box;
+}
+
+.form-group input[readonly] {
+  background-color: #F5F5F5;
+  cursor: not-allowed;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #007ACC;
+}
+
+.form-group small {
+  color: #000000;
+  font-size: 18px;
+  display: block;
+  margin-top: 12px;
+}
+
+.appointment-form button,
+.book-appointment button {
+  background: #007ACC;
+  color: white;
+  border: none;
+  padding: 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.appointment-form button:hover,
+.book-appointment button:hover {
+  background: #005F8D;
+}
+
+.appointment-form button:disabled,
+.book-appointment button:disabled {
+  background: #CCCCCC;
+  cursor: not-allowed;
+}
+
+/* Main Container for Viewing Appointments */
+.view-appointments {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: transparent;
+  min-height: 100vh;
+  border: none;
+}
+
+/* Main Heading for Viewing Appointments */
+.main-heading {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  color: #3b82f6;
+  margin-bottom: 2rem;
+  letter-spacing: -0.02em;
+}
+
+/* Shared Heading Styles */
+.view-appointments h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #007ACC;
+  margin-bottom: 24px;
+}
+
+.view-appointments h2.visually-hidden,
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Tabs Container */
+.tabs {
+  display: flex;
+  gap: 0;
+  background-color: #e2e8f0;
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 2rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: none;
+  border: none;
+}
+
+/* Individual Tab */
+.tab {
+  flex: 1;
+  text-align: center;
+  background-color: transparent;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  color: #64748b;
+  border: none;
+  outline: none;
+}
+
+/* Hover State for Tabs */
+.tab:hover {
+  background-color: #d1d5db;
+  color: #3b82f6;
+}
+
+/* Active Tab State */
+.tab.active {
+  background-color: #ffffff;
+  color: #3b82f6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Appointments Grid Container */
+.appointments-grid {
+  margin-left: -14px;
+  width: 99%;
+  background-color: transparent;
+  border: none;
+}
+
+/* Appointments Card */
+.appointments-card {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+}
+
+/* Appointments List */
+.appointments-list {
+  width: 100%;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+}
+
+.appointments-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.appointments-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: background 0.2s ease;
+}
+
+.appointments-list li:hover {
+  background-color: #f1f8ff;
+}
+
+.appointments-list li div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.appointments-list li div:first-child {
+  font-weight: 600;
+  color: #333;
+}
+
+.appointments-list li div:last-child {
+  text-align: right;
+  font-weight: 600;
+  color: #333;
+}
+
+.appointments-list li div span {
+  font-weight: normal;
+  color: #777;
+  font-size: 14px;
+}
+
+/* Grid Layout for Cards */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+}
+
+/* Individual Card Styling */
+.card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  border-left: 4px solid #3b82f6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  border: none;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Card Header */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+/* Name and Role */
+.name-role .name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+
+.name-role .role {
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Status Badge */
+.status {
+  background-color: #dbeafe;
+  color: #3b82f6;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.status-past {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+/* Card Body */
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Detail Row */
+.detail-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.detail-row .icon {
+  font-size: 1rem;
+  min-width: 20px;
+}
+
+.detail-row .label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #64748b;
+  min-width: 45px;
+}
+
+.detail-row .value {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1e293b;
+  flex: 1;
+}
+
+/* Empty State */
+.no-appointments {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: none;
+  text-align: center;
+  min-height: 300px; /* Increased height for a larger appearance */
+  width: 100%; /* Ensure it takes full width */
+  max-width:1120px; /* Set a max-width to match the image's proportions */
+  margin: 0 auto; /* Center the container */
+  margin-right:6px;
+}
+
+/* Empty State Icon */
+.empty-icon {
+  font-size: 4rem; /* Increased icon size */
+  margin-bottom: 1.5rem; /* More spacing below the icon */
+  color: #64748b;
+}
+
+/* Empty State Heading */
+.empty-heading {
+  font-size: 2rem; /* Larger font size for the heading */
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 0.75rem; /* Adjusted spacing */
+}
+
+/* Empty State Subtext */
+.empty-subtext {
+  font-size: 1.25rem; /* Larger font size for the subtext */
+  color: #64748b;
+  margin: 0;
+}
+
+/* Success and Error Messages */
+.success-message,
+.error-message {
+  font-size: 18px;
+  justify-content: center;
+  text-align: center;
+  padding: 12px 16px;
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+.success-message {
+  color: #2e7d32;
+  background-color: #e8f5e9;
+}
+
+.error-message {
+  color: #c62828;
+  background-color: #ffebee;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .book-appointment.card,
+  .appointments-card {
+    padding: 20px;
+  }
+
+  .appointment-form {
+    gap: 15px;
+  }
+
+  .form-group label,
+  .form-group input,
+  .form-group select,
+  .appointment-form button,
+  .book-appointment button {
+    font-size: 16px;
+  }
+
+  .appointments-list li,
+  .no-appointments {
+    font-size: 14px;
+  }
+
+  .tabs {
+    gap: 15px;
+    max-width: 100%;
+  }
+
+  .tab {
+    font-size: 15px;
+  }
+
+  .view-appointments {
+    padding: 20px;
+  }
+
+  .appointments-list li {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 15px;
+    gap: 10px;
+  }
+
+  .appointments-list li div:last-child {
+    text-align: left;
+  }
+
+  .main-heading {
+    font-size: 2rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .status {
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .view-appointments {
+    padding: 16px 12px;
+  }
+
+  .tabs {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .tab {
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  .detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .detail-row .label {
+    min-width: auto;
+  }
+}

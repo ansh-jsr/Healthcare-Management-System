@@ -1,0 +1,66 @@
+<div class="container">
+    <h2>Frequently Asked Questions</h2>
+  
+    <mat-card class="search-card">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Search FAQs...</mat-label>
+        <input matInput [(ngModel)]="searchTerm" (input)="onSearchInput()">
+        <button *ngIf="searchTerm" matSuffix mat-icon-button (click)="clearSearch()">
+          <mat-icon>clear</mat-icon>
+        </button>
+        <button matPrefix mat-icon-button (click)="triggerSearch()">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+  </mat-card>
+  <div class="category-buttons">
+    <button
+      mat-flat-button
+      *ngFor="let category of categories; let i = index"
+      [color]="tabValue === i ? 'primary' : undefined"
+      (click)="changeTab(i)">
+      <mat-icon class="tab-icon">{{ category.icon }}</mat-icon>
+      {{ category.label }}
+    </button>
+  </div>
+  
+    
+  
+    <div class="faq-grid">
+      <div class="main-section">
+        <mat-card *ngIf="filteredFAQs.length > 0; else noResults">
+          <mat-accordion>
+            <mat-expansion-panel *ngFor="let faq of filteredFAQs; let i = index"
+                                 [expanded]="expandedPanel === 'panel-' + i"
+                                 (opened)="togglePanel('panel-' + i)"
+                                 (closed)="togglePanel('')">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{ faq.question }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-divider></mat-divider>
+              <p>{{ faq.answer }}</p>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </mat-card>
+  
+        <ng-template #noResults>
+          <div class="no-results">
+            <h3>No FAQs found matching your search.</h3>
+            <p>Try adjusting your search term or selecting a different category.</p>
+          </div>
+        </ng-template>
+      </div>
+  
+      <div class="sidebar">
+          <h3>Popular Questions</h3>
+          <mat-nav-list>
+            <mat-list-item *ngFor="let faq of popularQuestions" (click)="goToPopular(faq)">
+              <span matLine>{{ faq.question }}</span>
+            </mat-list-item>
+          </mat-nav-list>
+      </div>
+    </div>
+  </div>
+  

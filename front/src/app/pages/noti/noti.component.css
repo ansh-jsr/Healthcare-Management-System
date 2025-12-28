@@ -1,0 +1,211 @@
+.notification-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 24px;
+  background: #ffffff; 
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.notification-container h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  
+  color: black;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1e40af;
+  margin-bottom: 8px;
+}
+
+.form-group textarea,
+.form-group input:not([type="checkbox"]) {
+  width: calc(100% - 4px);
+  padding: 12px;
+  font-size: 0.875rem;
+  color: #1e3a8a;
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+}
+
+.form-group textarea:focus,
+.form-group input:not([type="checkbox"]):focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #3b82f6;
+  cursor: pointer;
+  margin-top: -4px;
+}
+
+.checkbox-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1e40af;
+  cursor: pointer;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: linear-gradient(90deg, #60a5fa, #3b82f6);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+button:hover:not(:disabled) {
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.message-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 8px;
+  animation: slideIn 0.3s ease-in-out;
+}
+
+.message.success {
+  color: #1e3a8a;
+  background-color: #dbeafe;
+}
+
+.message.error {
+  color: #b91c1c;
+  background-color: #fee2e2;
+}
+
+.message.loading {
+  color: #1e40af;
+  background-color: #f0f9ff;
+}
+
+.message-icon {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.message-icon.loading-icon {
+  animation: spin 1s linear infinite;
+}
+
+.message-icon.loading-icon circle {
+  stroke: currentColor;
+  opacity: 0.25;
+}
+
+.message-icon.loading-icon path {
+  fill: currentColor;
+  opacity: 0.75;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .notification-container {
+    max-width: 100%;
+    margin: 20px;
+    padding: 16px;
+  }
+
+  .notification-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .form-group textarea,
+  .form-group input:not([type="checkbox"]) {
+    padding: 10px;
+  }
+
+  button {
+    padding: 10px;
+  }
+}

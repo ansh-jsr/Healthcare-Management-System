@@ -1,0 +1,227 @@
+/* General styling for a clean and soothing look */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f7fa;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+/* Header styling */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+  color: #333;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 500;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.header button {
+  color: #4a90e2;
+}
+
+.header button mat-icon {
+  font-size: 24px;
+}
+
+/* Success and Error Alerts */
+.success-alert, .error-alert {
+  margin: 16px 24px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.success-alert {
+  background-color: #e6f4ea;
+  color: #2e7d32;
+}
+
+.error-alert {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.success-alert mat-icon, .error-alert mat-icon {
+  margin-right: 12px;
+  font-size: 24px;
+}
+
+/* Form wrapper */
+.form-wrapper {
+  max-width: 1200px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+/* Card styling */
+mat-card {
+  background-color: #fff;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+mat-card h3 {
+  margin: 0 0 16px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #4a90e2;
+}
+
+mat-divider {
+  margin-bottom: 24px;
+  background-color: #e0e0e0;
+}
+
+/* Grid layout for form fields */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+/* Form field styling */
+mat-form-field {
+  width: 100%;
+}
+
+mat-form-field .mat-form-field-wrapper {
+  padding-bottom: 1.5em;
+}
+
+mat-form-field .mat-form-field-label {
+  color: #666;
+}
+
+mat-form-field .mat-form-field-underline {
+  background-color: #4a90e2;
+}
+
+mat-form-field .mat-form-field-ripple {
+  background-color: #50c9c3;
+}
+
+mat-form-field .mat-error {
+  color: #c62828;
+  font-size: 12px;
+}
+
+mat-form-field input,
+mat-form-field textarea,
+mat-form-field mat-select {
+  color: #333;
+}
+
+/* Button row */
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+button[mat-stroked-button] {
+  border-color: #4a90e2;
+  color: #4a90e2;
+  border-radius: 6px;
+  padding: 8px 16px;
+}
+
+button[mat-raised-button].submit {
+  background: linear-gradient(90deg, #4a90e2 0%, #50c9c3 100%);
+  color: #fff;
+  border-radius: 6px;
+  padding: 8px 24px;
+}
+
+button[mat-raised-button][disabled] {
+  background: #b0bec5;
+  color: #fff;
+}
+
+mat-progress-spinner {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .header h2 {
+    font-size: 20px;
+  }
+
+  mat-card {
+    padding: 16px;
+  }
+
+  .button-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .button-row button {
+    width: 100%;
+  }
+}
+
+.upload-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.file-upload-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  border: 1px solid #3f51b5;
+  color: #3f51b5;
+  transition: background-color 0.3s ease;
+}
+
+.file-upload-label:hover {
+  background-color: rgba(63, 81, 181, 0.1);
+}
+
+.upload-section span {
+  font-size: 14px;
+  color: #555;
+  word-break: break-all;
+  max-width: 300px;
+}
+
+
+

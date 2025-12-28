@@ -1,0 +1,127 @@
+<!-- profile-page.component.html -->
+<div *ngIf="loading && !user" class="loading-container">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="!loading && user">
+  <h2>My Profile</h2>
+
+  <mat-tab-group [(selectedIndex)]="tabValue">
+    <mat-tab label="Profile Information">
+      <mat-card>
+        <div class="profile-header">
+          <div class="avatar-section">
+            <mat-icon class="avatar-icon">person</mat-icon>
+            <div>
+              <h3>{{ user?.firstName }} {{ user?.lastName }}</h3>
+              <p>{{ user?.role | titlecase }}<span *ngIf="user?.specialization"> - {{ user?.specialization }}</span></p>
+            </div>
+          </div>
+          <div>
+            <button mat-stroked-button *ngIf="!isEditMode" (click)="editProfile()">
+              <mat-icon>edit</mat-icon> Edit Profile
+            </button>
+            <div *ngIf="isEditMode">
+              <button mat-button (click)="cancelEdit()" [disabled]="loading">
+                <mat-icon>cancel</mat-icon> Cancel
+              </button>
+              <button mat-raised-button color="primary" (click)="saveChanges()" [disabled]="loading">
+                <mat-icon *ngIf="!loading">save</mat-icon>
+                <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <form>
+          <div class="form-grid">
+            <mat-form-field appearance="fill">
+              <mat-label>First Name</mat-label>
+              <input matInput name="firstName" [(ngModel)]="profileForm.firstName" [disabled]="!isEditMode || loading" required />
+              <mat-error *ngIf="profileErrors.firstName">{{ profileErrors.firstName }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Last Name</mat-label>
+              <input matInput name="lastName" [(ngModel)]="profileForm.lastName" [disabled]="!isEditMode || loading" required />
+              <mat-error *ngIf="profileErrors.lastName">{{ profileErrors.lastName }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Email</mat-label>
+              <input matInput type="email" name="email" [(ngModel)]="profileForm.email" [disabled]="!isEditMode || loading" required />
+              <mat-error *ngIf="profileErrors.email">{{ profileErrors.email }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field *ngIf="profileForm.role === 'doctor'" appearance="fill">
+              <mat-label>Specialization</mat-label>
+              <input matInput name="specialization" [(ngModel)]="profileForm.specialization" [disabled]="!isEditMode || loading" />
+              <mat-error *ngIf="profileErrors.specialization">{{ profileErrors.specialization }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field *ngIf="['doctor', 'nurse'].includes(profileForm.role)" appearance="fill">
+              <mat-label>License Number</mat-label>
+              <input matInput name="licenseNumber" [(ngModel)]="profileForm.licenseNumber" [disabled]="!isEditMode || loading" />
+              <mat-error *ngIf="profileErrors.licenseNumber">{{ profileErrors.licenseNumber }}</mat-error>
+            </mat-form-field>
+          </div>
+        </form>
+
+        <div class="member-since">
+        Member since: {{ user?.memberSince | date:'longDate' }}
+      </div>
+      </mat-card>
+    </mat-tab>
+
+    <mat-tab label="Change Password">
+      <mat-card>
+        <div class="password-header">
+          <mat-icon>lock</mat-icon>
+          <h3>Change Password</h3>
+        </div>
+
+        <form (ngSubmit)="handleChangePassword()">
+          <div class="form-grid">
+            <mat-form-field appearance="fill">
+              <mat-label>Current Password</mat-label>
+              <input matInput [type]="showCurrentPassword ? 'text' : 'password'" name="currentPassword" [(ngModel)]="passwordForm.currentPassword" required />
+              <button mat-icon-button matSuffix (click)="togglePasswordVisibility('current')">
+                <mat-icon>{{ showCurrentPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+              <mat-error *ngIf="passwordErrors.currentPassword">{{ passwordErrors.currentPassword }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label>New Password</mat-label>
+              <input matInput [type]="showNewPassword ? 'text' : 'password'" name="newPassword" [(ngModel)]="passwordForm.newPassword" required />
+              <button mat-icon-button matSuffix (click)="togglePasswordVisibility('new')">
+                <mat-icon>{{ showNewPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+              <mat-error *ngIf="passwordErrors.newPassword">{{ passwordErrors.newPassword }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Confirm Password</mat-label>
+              <input matInput [type]="showConfirmPassword ? 'text' : 'password'" name="confirmPassword" [(ngModel)]="passwordForm.confirmPassword" required />
+              <button mat-icon-button matSuffix (click)="togglePasswordVisibility('confirm')">
+                <mat-icon>{{ showConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+              <mat-error *ngIf="passwordErrors.confirmPassword">{{ passwordErrors.confirmPassword }}</mat-error>
+            </mat-form-field>
+          </div>
+
+          <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+            <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+            Change Password
+          </button>
+        </form>
+      </mat-card>
+    </mat-tab>
+  </mat-tab-group>
+
+  <mat-card *ngIf="error" class="alert error">{{ error }}</mat-card>
+  <mat-card *ngIf="success" class="alert success">{{ success }}</mat-card>
+</div>

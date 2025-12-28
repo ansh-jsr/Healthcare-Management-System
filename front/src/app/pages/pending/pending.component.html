@@ -1,0 +1,244 @@
+<!-- medical-records.component.html -->
+<div class="medical-records-container">
+  <!-- Header -->
+  <div class="header">
+    <h2>Medical Records</h2>
+    <p class="subtitle">Manage your medical documents and approvals</p>
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="tab-navigation">
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'pending'"
+      (click)="setActiveTab('pending')">
+      <span class="tab-icon">⏳</span>
+      Pending 
+      <span class="badge" *ngIf="pendingRecords.length > 0">{{pendingRecords.length}}</span>
+    </button>
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'approved'"
+      (click)="setActiveTab('approved')">
+      <span class="tab-icon">✅</span>
+      Approved 
+      <span class="badge" *ngIf="approvedRecords.length > 0">{{approvedRecords.length}}</span>
+    </button>
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'rejected'"
+      (click)="setActiveTab('rejected')">
+      <span class="tab-icon">❌</span>
+      Rejected 
+      <span class="badge" *ngIf="rejectedRecords.length > 0">{{rejectedRecords.length}}</span>
+    </button>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Loading medical records...</p>
+  </div>
+
+  <!-- Tab Content -->
+  <div class="tab-content" *ngIf="!isLoading">
+    
+    <!-- Pending Records Tab -->
+    <div *ngIf="activeTab === 'pending'" class="records-section">
+      <div *ngIf="pendingRecords.length === 0" class="no-records">
+        <div class="no-records-icon">📋</div>
+        <h3>No Pending Records</h3>
+        <p>You don't have any pending medical records to review.</p>
+      </div>
+      
+      <div *ngFor="let record of pendingRecords" class="record-card pending-card">
+        <div class="record-header">
+          <div class="record-info">
+            <h3>{{record.documentName}}</h3>
+            <p class="doctor-name">
+              <span class="label">Doctor:</span> Dr. {{record.doctorName}}
+            </p>
+            <p class="document-type">
+              <span class="label">Type:</span> {{record.documentType}}
+            </p>
+            <p class="upload-date">
+              <span class="label">Uploaded:</span> {{formatDate(record.uploadDate)}}
+            </p>
+          </div>
+          <div class="record-status">
+            <span [class]="getStatusBadgeClass(record.status)">Pending Review</span>
+          </div>
+        </div>
+        
+        <div class="record-details" *ngIf="record.description">
+          <p class="description">
+            <span class="label">Description:</span> {{record.description}}
+          </p>
+        </div>
+        
+        <div class="record-actions">
+          <button 
+            class="btn btn-view" 
+            (click)="viewDocument(record)"
+            [disabled]="isLoading">
+            <span class="btn-icon">👁️</span>
+            View Document
+          </button>
+          <button 
+            class="btn btn-approve" 
+            (click)="approveRecord(record)"
+            [disabled]="isLoading">
+            <span class="btn-icon">✅</span>
+            Approve
+          </button>
+          <button 
+            class="btn btn-reject" 
+            (click)="showRejectModal(record)"
+            [disabled]="isLoading">
+            <span class="btn-icon">❌</span>
+            Reject
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Approved Records Tab -->
+    <div *ngIf="activeTab === 'approved'" class="records-section">
+      <div *ngIf="approvedRecords.length === 0" class="no-records">
+        <div class="no-records-icon">✅</div>
+        <h3>No Approved Records</h3>
+        <p>You haven't approved any medical records yet.</p>
+      </div>
+      
+      <div *ngFor="let record of approvedRecords" class="record-card approved-card">
+        <div class="record-header">
+          <div class="record-info">
+            <h3>{{record.documentName}}</h3>
+            <p class="doctor-name">
+              <span class="label">Doctor:</span> Dr. {{record.doctorName}}
+            </p>
+            <p class="document-type">
+              <span class="label">Type:</span> {{record.documentType}}
+            </p>
+            <p class="upload-date">
+              <span class="label">Uploaded:</span> {{formatDate(record.uploadDate)}}
+            </p>
+            <p class="approved-date" *ngIf="record.approvedDate">
+              <span class="label">Approved:</span> {{formatDate(record.approvedDate)}}
+            </p>
+          </div>
+          <div class="record-status">
+            <span [class]="getStatusBadgeClass(record.status)">Approved</span>
+          </div>
+        </div>
+        
+        <div class="record-details" *ngIf="record.description">
+          <p class="description">
+            <span class="label">Description:</span> {{record.description}}
+          </p>
+        </div>
+        
+        <div class="record-actions">
+          <button 
+            class="btn btn-view" 
+            (click)="viewDocument(record)"
+            [disabled]="isLoading">
+            <span class="btn-icon">👁️</span>
+            View Document
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rejected Records Tab -->
+    <div *ngIf="activeTab === 'rejected'" class="records-section">
+      <div *ngIf="rejectedRecords.length === 0" class="no-records">
+        <div class="no-records-icon">❌</div>
+        <h3>No Rejected Records</h3>
+        <p>You haven't rejected any medical records.</p>
+      </div>
+      
+      <div *ngFor="let record of rejectedRecords" class="record-card rejected-card">
+        <div class="record-header">
+          <div class="record-info">
+            <h3>{{record.documentName}}</h3>
+            <p class="doctor-name">
+              <span class="label">Doctor:</span> Dr. {{record.doctorName}}
+            </p>
+            <p class="document-type">
+              <span class="label">Type:</span> {{record.documentType}}
+            </p>
+            <p class="upload-date">
+              <span class="label">Uploaded:</span> {{formatDate(record.uploadDate)}}
+            </p>
+            <p class="rejected-date" *ngIf="record.rejectedDate">
+              <span class="label">Rejected:</span> {{formatDate(record.rejectedDate)}}
+            </p>
+          </div>
+          <div class="record-status">
+            <span [class]="getStatusBadgeClass(record.status)">Rejected</span>
+          </div>
+        </div>
+        
+        <div class="record-details">
+          <p class="description" *ngIf="record.description">
+            <span class="label">Description:</span> {{record.description}}
+          </p>
+          <p class="rejection-reason" *ngIf="record.rejectionReason">
+            <span class="label">Rejection Reason:</span> {{record.rejectionReason}}
+          </p>
+        </div>
+        
+        <div class="record-actions">
+          <button 
+            class="btn btn-view" 
+            (click)="viewDocument(record)"
+            [disabled]="isLoading">
+            <span class="btn-icon">👁️</span>
+            View Document
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Reject Modal -->
+<div class="modal-overlay" *ngIf="showRejectDialog" (click)="closeRejectModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Reject Medical Record</h3>
+      <button class="close-btn" (click)="closeRejectModal()">×</button>
+    </div>
+    
+    <div class="modal-body">
+      <p><strong>Document:</strong> {{selectedRecord?.documentName}}</p>
+      <p><strong>Doctor:</strong> Dr. {{selectedRecord?.doctorName}}</p>
+      
+      <div class="form-group">
+        <label for="rejectionReason">Reason for Rejection *</label>
+        <textarea
+          id="rejectionReason"
+          [(ngModel)]="rejectionReason"
+          placeholder="Please provide a reason for rejecting this medical record..."
+          rows="4"
+          class="form-control"
+          required>
+        </textarea>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="closeRejectModal()" [disabled]="isLoading">
+        Cancel
+      </button>
+      <button 
+        class="btn btn-danger" 
+        (click)="rejectRecord()" 
+        [disabled]="isLoading || !rejectionReason.trim()">
+        <span *ngIf="isLoading" class="btn-spinner"></span>
+        Reject Record
+      </button>
+    </div>
+  </div>
+</div>

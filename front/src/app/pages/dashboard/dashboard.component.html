@@ -1,0 +1,191 @@
+<div class="dashboard">
+  <!-- Header -->
+  <div class="header-container">
+    <div>
+      <h1 class="dashboard-title">Welcome to MediTech</h1>
+      <p class="dashboard-subtitle">Dashboard overview and summary</p>
+    </div>
+      
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <h3 class="ml-2">Loading Dashboard...</h3>
+  </div>
+
+  <!-- Dashboard Content -->
+  <div *ngIf="!loading">
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+      <mat-card *ngFor="let stat of stats" class="stat-card" [style.borderLeft]="'5px solid ' + stat.color">
+        <div class="stat-header">
+          <span class="stat-title">{{ stat.title }}</span>
+          <div class="stat-icon-container" [style.backgroundColor]="stat.color + '20'" [style.color]="stat.color">
+            <mat-icon>{{ stat.icon }}</mat-icon>
+          </div>
+        </div>
+        <h2 class="stat-value">{{ stat.value }}</h2>
+        <div class="stat-change">
+          <mat-icon class="trend-icon">trending_up</mat-icon>
+          <span class="trend-text">{{ stat.change }} from last month</span>
+        </div>
+      </mat-card>
+    </div>
+
+    <!-- Main Dashboard Grid -->
+    <div class="dashboard-grid">
+      <!-- Left Column -->
+      <div class="left-column">
+        <!-- Patients by Department -->
+        <mat-card class="department-card">
+          <div class="card-header">
+            <h3>Patients by Department</h3>
+            <!-- <button mat-button color="primary" class="view-all-btn">
+              View All
+              <mat-icon>arrow_forward</mat-icon>
+            </button> -->
+          </div>
+          <mat-divider></mat-divider>
+          <div class="department-list">
+            <div *ngFor="let label of patientsByDepartment.labels; let i = index" class="department-item">
+              <div class="department-header">
+                <span>{{ label }}</span>
+                <strong>{{ patientsByDepartment.values[i] }}</strong>
+              </div>
+              <mat-progress-bar
+                [value]="(patientsByDepartment.values[i] / maxDepartmentValue) * 100"
+                [color]="i % 2 === 0 ? 'primary' : 'accent'"
+                class="department-progress">
+              </mat-progress-bar>
+            </div>
+          </div>
+        </mat-card>
+
+        <!-- Recent Activity -->
+        <mat-card class="activity-card">
+          <div class="card-header">
+            <h3>Recent Activity</h3>
+            <button mat-icon-button>
+              <mat-icon>more_vert</mat-icon>
+            </button>
+          </div>
+          <mat-divider></mat-divider>
+          <mat-list>
+            <mat-list-item *ngFor="let activity of recentActivities">
+              <div matListItemAvatar>
+                <div class="activity-avatar" [style.backgroundColor]="activity.color + '20'" [style.color]="activity.color">
+                  <mat-icon *ngIf="activity.type === 'New Patient'">person_add</mat-icon>
+                  <mat-icon *ngIf="activity.type === 'Appointment'">calendar_today</mat-icon>
+                  <mat-icon *ngIf="activity.type === 'Lab Results'">local_hospital</mat-icon>
+                  <mat-icon *ngIf="activity.type === 'Medical Record'">assignment</mat-icon>
+                </div>
+              </div>
+              <div matListItemTitle>
+                <div class="activity-description">
+                  <span>{{ activity.description }}</span>
+                  
+                    <mat-chip
+                      [style.backgroundColor]="activity.color + '20'"
+                      [style.color]="activity.color"
+                      class="activity-chip">
+                      {{ activity.type }}
+                    </mat-chip>
+                  
+                </div>
+              </div>
+              <div matListItemLine>
+                <span class="activity-time">{{ activity.time }}</span>
+              </div>
+            </mat-list-item>
+          </mat-list>
+          <div class="view-all-container">
+            <!-- <button mat-stroked-button color="primary">
+              View All Activity
+              <mat-icon>arrow_forward</mat-icon>
+            </button> -->
+          </div>
+        </mat-card>
+      </div>
+
+      <!-- Right Column -->
+      <div class="right-column">
+        <!-- Today's Appointments -->
+        <mat-card class="appointments-card">
+          <div class="card-header">
+            <h3>Today's Appointments</h3>
+            <mat-chip color="primary" outlined="true" class="date-chip">
+              <mat-icon>event</mat-icon>
+              {{ currentDate }}
+            </mat-chip>
+          </div>
+          <mat-divider></mat-divider>
+          <mat-list>
+            <mat-list-item *ngFor="let appointment of upcomingAppointments">
+              <mat-icon matListItemAvatar class="default-avatar">
+                {{ appointment.patientName.charAt(0) }}
+              </mat-icon>
+              <div matLine>
+                <span class="patient-name">{{ appointment.patientName }}</span>
+              </div>
+              <div matLine>
+                <div class="appointment-details">
+                  <span class="appointment-time">
+                    <mat-icon>calendar_today</mat-icon>
+                    {{ appointment.time }}
+                  </span>
+                  <mat-chip
+                    [ngClass]="getAppointmentChipClass(appointment.type)"
+                    class="type-chip">
+                    {{ appointment.type }}
+                  </mat-chip>
+                </div>
+              </div>
+              <div matListItemMeta>
+                <button mat-icon-button>
+                  <mat-icon>info</mat-icon>
+                </button>
+              </div>
+            </mat-list-item>
+          </mat-list>
+          
+          <div class="view-all-container">
+            <!-- <a mat-button color="primary" [routerLink]="['/appointments']">
+              View Full Schedule
+            </a> -->
+          </div>
+        </mat-card>
+
+        <!-- System Health Card -->
+        <mat-card class="system-health-card">
+          <div class="card-header">
+            <mat-icon color="primary">speed</mat-icon>
+            <h3>System Health</h3>
+          </div>
+          <mat-divider></mat-divider>
+          <div *ngFor="let item of systemHealth" class="health-item">
+            <div class="health-header">
+              <span>{{ item.metric }}</span>
+              <div class="health-value">
+                <strong>{{ item.value }}%</strong>
+                <mat-icon
+                  [ngClass]="getHealthStatusClass(item.status)"
+                  class="status-icon">
+                  check_circle
+                </mat-icon>
+              </div>
+            </div>
+            <mat-progress-bar
+              [value]="item.value"
+              [color]="getHealthStatusColor(item.status)"
+              class="health-progress">
+            </mat-progress-bar>
+          </div>
+          <div class="system-updated">
+            <span>Last updated: Today at 10:24 AM</span>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

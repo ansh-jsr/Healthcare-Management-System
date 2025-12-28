@@ -1,0 +1,64 @@
+<div class="login-container">
+  <button mat-icon-button (click)="hideLogin()" aria-label="Close" class="close-button">
+    <mat-icon>close</mat-icon>
+  </button>
+  <div class="header">
+    <h2>Sign In</h2>
+    <div class="wallet-section">
+  <h4>Connect Wallet</h4>
+
+  <div *ngIf="!walletAddress"  class="wallet-connect">
+    <button 
+      type="button"
+      mat-raised-button
+      color="primary"
+      (click)="connectMetaMask()"
+      [disabled]="isConnecting"
+      class="wallet-button">
+      <span *ngIf="!walletAddress && !isConnecting">🦊 Connect MetaMask</span>
+      <span *ngIf="isConnecting">Connecting...</span>
+      <span *ngIf="walletAddress">✅ Connected</span>
+    </button>
+</div>
+    <div *ngIf="walletAddress" class="wallet-connected">
+      <div class="wallet-address">
+        <span>Wallet Connected and Verified</span>
+      </div>
+      <div class="wallet-address">
+        {{ walletAddress | slice:0:6 }}...{{ walletAddress | slice:-4 }}
+      </div>
+  </div>
+
+    <p class="subtitle">Enter Your Credentials</p>
+  </div>
+  <div *ngIf="successMessage" class="success-message">
+  ✅ {{ successMessage }}
+</div>
+
+<div *ngIf="errorMessage" class="error-message">
+  ❌ {{ errorMessage }}
+</div>
+  <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Email Address *" required>
+    </div>
+    <div class="form-group password-group">
+      <input [type]="showPassword ? 'text' : 'password'" id="password" [(ngModel)]="password" name="password" placeholder="Password *" required>
+      <button type="button" class="password-toggle" (click)="togglePasswordVisibility()">
+        <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </div>
+    <div class="options">
+      <div class="remember-me">
+        <label>
+          <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe" />
+          Remember Me
+        </label>
+      </div>
+      <a href="#" class="forgot-password">Forgot password?</a>
+    </div>
+    <button mat-raised-button type="submit" class="login-button" [disabled]="!email || !password">Sign In</button>
+    <p class="signup-link">Don't have an account? <a href="#" (click)="switchToSignupEvent()">Sign up here</a></p>
+  </form>
+</div>
+

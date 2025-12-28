@@ -1,0 +1,404 @@
+.container {
+  max-width: 1600px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  font-family: var(--font-family);
+  background: var(--white);
+  min-height: 100vh;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 2px;
+  letter-spacing: -0.02em;
+  margin-left: 90px;
+}
+
+.mb-3 {
+  background: #e6ffe6;
+  border-left: 6px solid #2e7d32;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+.mb-3 mat-icon {
+  font-size: 1.5rem;
+  color: #2e7d32;
+}
+
+.mb-3 span {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+mat-grid-list {
+  display: block;
+  margin-bottom: 2rem;
+}
+
+mat-grid-tile {
+  padding: 1rem;
+}
+
+mat-card {
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  width: 100%;
+}
+
+.improv{
+  margin-top: -60px;
+}
+
+
+.contact-tile {
+  position:absolute;
+  top: -80px; /* Adjust this value as needed to move it up more or less */
+}
+
+mat-card h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+mat-card mat-icon {
+  font-size: 1.5rem;
+ 
+  color :#2196F3
+  
+}
+
+.quick-card .card-icon {
+  height: 50px;
+  width: 50px;
+  font-size: 3rem;
+
+}
+
+mat-divider {
+  margin: 1rem 0;
+  border-top: 1px solid var(--light-blue);
+}
+
+.quick-help {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  
+}
+
+.quick-card {
+    padding: 24px;
+    min-height: 220px;
+    font-size: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.quick-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.card-icon {
+  margin-bottom: 1rem;
+    margin-right: 8px;
+    vertical-align: middle;
+    
+      font-size: 48px;
+      margin-bottom: 12px;
+      display: block;
+    
+}
+
+.quick-card h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.quick-card p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.quick-card a {
+  text-decoration: none;
+}
+
+.quick-card button {
+  background: var(--primary-blue);
+  color: var(--white);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+
+
+mat-accordion {
+  margin-bottom: 1rem;
+}
+
+mat-expansion-panel {
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 0.5rem;
+}
+
+mat-expansion-panel-header {
+  padding: 1rem;
+}
+
+mat-panel-title {
+  font-size: 1rem;
+  color: var(--text-dark);
+}
+
+mat-expansion-panel p {
+  padding: 0 1rem 1rem;
+  color: var(--text-muted);
+}
+
+mat-list {
+  margin-bottom: 1rem;
+}
+
+mat-list-item {
+  padding: 0.5rem 0;
+}
+
+mat-list-item mat-icon {
+  margin-right: 1rem;
+}
+
+mat-list-item h4 {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+mat-list-item p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+mat-card p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+}
+
+mat-card p strong {
+  color: var(--text-dark);
+}
+
+#support-form h3 {
+  margin-bottom: 1.5rem;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+mat-form-field {
+  display: block;
+}
+
+mat-error {
+  font-size: 0.75rem;
+  color: #f44336;
+}
+
+input[type="file"] {
+  margin-bottom: 1rem;
+}
+
+p[ngIf] {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.submit-btn {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submit-btn button {
+  background: var(--primary-blue);
+  color: var(--white);
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.submit-btn button:hover {
+  background: #357abd;
+}
+
+.submit-btn mat-progress-spinner {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 960px) {
+  mat-grid-list {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-card {
+    width: calc(50% - 0.75rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .quick-card {
+    width: 100%;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
+
+  mat-card h3 {
+    font-size: 1.25rem;
+  }
+}
+
+
+
+.grid-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: -60px;
+}
+
+.grid-column {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .grid-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+.help-support {
+  background: #f8f9fa;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 1200px;
+  margin: 0 auto; 
+}
+
+/* New title */
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* New row layout for FAQ and Contact Info */
+.middle-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin: 2rem 0;
+}
+
+/* Card wrappers */
+.faq-container,
+.contact-container {
+  flex: 1 1 45%;
+  min-width: 300px;
+}
+
+/* Support ticket box takes full width */
+.support-ticket {
+  margin-top: 2rem;
+}
+
+/* Optional enhancements */
+mat-card {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+
+mat-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+mat-card p {
+  color: #444;
+  font-size: 0.9rem;
+}
+
+.quick-help {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  padding: 2rem;
+}
+
+
+
+.success-message {
+  color: #2e7d32;
+  padding: 8px 12px;
+  margin: 12px 0;
+  border-radius: 6px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.error-message {
+  color: #c62828;
+  padding: 8px 12px;
+  margin: 12px 0;
+  border-radius: 6px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+
+
+
+
+
+
+

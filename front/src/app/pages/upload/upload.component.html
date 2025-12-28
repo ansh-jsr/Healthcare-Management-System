@@ -1,0 +1,172 @@
+<!-- Error Message -->
+  <div *ngIf="error" class="error-message">
+    <span class="alert-icon">⚠️</span>
+    {{ error }}
+  </div>
+  
+  <!-- Success Message -->
+  <div *ngIf="success" class="success-message">
+    <span class="alert-icon">✅</span>
+    {{ successMessage }}
+  </div>
+
+<div class="upload-container">
+  <h1>Upload Medical Record </h1>
+  <p class="subtitle">
+    <span *ngIf="patientName; else defaultSubtitle">
+      Upload medical record for <strong>{{ patientName }}</strong>
+    </span>
+    <ng-template #defaultSubtitle>
+      Upload a new medical record that will be securely stored on IPFS and verified on the blockchain
+    </ng-template>
+  </p>
+  
+  <form [formGroup]="uploadForm" (ngSubmit)="uploadRecord()">
+    <div class="form-section">
+      <h2>Patient Information</h2>
+      <div class="form-group">
+        <label for="patient">Patient</label>
+        <input
+          id="patient"
+          type="text"
+          class="form-control"
+          formControlName="patient"
+          [value]="getPatientDisplayValue()"
+          [readonly]="!!patientName"
+          [class.readonly]="!!patientName"
+          placeholder="Patient name will be filled automatically"
+        />
+        <div *ngIf="patientName" class="info-message">
+          <span class="info-icon">ℹ️</span>
+          Patient information is pre-filled from the selected appointment
+        </div>
+        <div *ngIf="uploadForm.get('patient')?.invalid && uploadForm.get('patient')?.touched" class="error-message">
+          Patient selection is required
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h2>Record Details</h2>
+      <div class="form-row">
+        <div class="form-group half">
+          <label for="recordType">Record Type</label>
+          <select id="recordType" formControlName="recordType" class="form-control">
+            <option value="" disabled>Select record type</option>
+            <option value="Lab Result">Lab Result</option>
+            <option value="Prescription">Prescription</option>
+            <option value="Diagnosis">Diagnosis</option>
+            <option value="Annual Checkup">Annual Checkup</option>
+          </select>
+          <div *ngIf="uploadForm.get('recordType')?.invalid && uploadForm.get('recordType')?.touched" class="error-message">
+            Record type is required
+          </div>
+        </div>
+        <div class="form-group half">
+          <label for="recordDate">Record Date</label>
+          <input 
+            type="date" 
+            id="recordDate" 
+            formControlName="recordDate" 
+            class="form-control date-input"
+            [max]="currentDate">
+          <div *ngIf="uploadForm.get('recordDate')?.invalid && uploadForm.get('recordDate')?.touched" class="error-message">
+            Record date is required
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input 
+          type="text" 
+          id="title" 
+          formControlName="title" 
+          class="form-control" 
+          placeholder="e.g., Annual Checkup Results, Lab Report, Prescription">
+        <div *ngIf="uploadForm.get('title')?.invalid && uploadForm.get('title')?.touched" class="error-message">
+          Title is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description (Optional)</label>
+        <textarea 
+          id="description" 
+          formControlName="description" 
+          class="form-control" 
+          rows="4" 
+          placeholder="Provide additional details about this medical record...">
+        </textarea>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h2>Upload Document</h2>
+      <div 
+        class="file-drop-area"
+        (dragover)="onDragOver($event)"
+        (drop)="onFileDropped($event)"
+        [class.has-file]="selectedFile"
+        [class.drag-over]="false">
+        <div class="file-upload-content">
+          <div class="upload-icon" [class.success]="selectedFile">
+            <svg *ngIf="!selectedFile" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            <svg *ngIf="selectedFile" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </div>
+          <p class="upload-text">
+            <span *ngIf="!selectedFile">Drag and drop your file here, or</span>
+            <span *ngIf="selectedFile" class="file-selected">{{ selectedFile.name }}</span>
+          </p>
+          <button type="button" class="browse-button" *ngIf="!selectedFile" onclick="document.querySelector('.file-input').click()">
+            Browse Files
+          </button>
+          <p class="upload-hint" *ngIf="!selectedFile">Supports PDF, JPG, PNG, DOCX (max: 50MB)</p>
+          <div *ngIf="selectedFile" class="file-info">
+            <span class="file-size">{{ (selectedFile.size / 1024 / 1024).toFixed(2) }} MB</span>
+            <button type="button" class="remove-file" (click)="selectedFile = null; uploadForm.patchValue({file: null})">
+              Remove
+            </button>
+          </div>
+        </div>
+        <input 
+          type="file"
+          class="file-input"
+          (change)="onFileSelected($event)"
+          accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+          style="display: none;">
+      </div>
+      <div *ngIf="uploadForm.get('file')?.invalid && uploadForm.get('file')?.touched" class="error-message">
+        File selection is required
+      </div>
+    </div>
+
+    
+
+    <div class="form-actions">
+      <button type="button" class="btn-cancel" (click)="cancel()" [disabled]="loading">
+        <span class="button-icon">↩️</span>
+        {{ appointmentId ? 'Back to Appointments' : 'Cancel' }}
+      </button>
+      <button 
+        type="submit" 
+        class="btn-upload" 
+        [disabled]="loading || uploadForm.invalid || !selectedFile">
+        <span class="button-spinner" *ngIf="loading"></span>
+        <span class="button-icon" *ngIf="!loading">📤</span>
+        <span *ngIf="loading">Uploading...</span>
+        <span *ngIf="!loading">Upload Record</span>
+      </button>
+    </div>
+  </form>
+</div>

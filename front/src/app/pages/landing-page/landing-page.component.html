@@ -1,0 +1,209 @@
+<header>
+  <mat-toolbar class="navbar" color="primary">
+      <!-- Left: Logo & Name -->
+      <div class="header">
+          <div class="logo-container"></div>
+          <h1 class="site-name">Meditech</h1>
+      </div>
+      
+      <!-- Middle Navigation Links -->
+       <div class="nav-links">
+          <a mat-button href="#">Home</a>
+          <a mat-button href="#" > Services</a>
+          <a mat-button href="#">About Us</a>
+          <a mat-button href="#">Contact Us</a>
+       </div>
+
+      <!-- Right: Login & Sign Up -->
+      <div class="auth-buttons">
+          <button mat-stroked-button color="primary" (click)="toggleLogin()" class="login-button">Login</button>
+          <button mat-raised-button color="primary" (click)="toggleSignup()" class="signup-button">Sign Up</button>  
+      </div>
+  </mat-toolbar>
+</header>
+
+
+<!-- Modal Overlay for blur effect -->
+<!-- // GREEN: Added modal overlay div that will blur the background -->
+<div class="modal-overlay" *ngIf="showLogin || showSignup" (click)="closeAllModals()"></div>
+
+<!-- Login Component with modal styling -->
+<!-- // GREEN: Added modal-container class to position the login form properly -->
+<div class="modal-container" *ngIf="showLogin">
+  <app-login 
+    (closeLogin)="CloseLogin()" 
+    (switchToSignup)="SwitchToSignup()">
+  </app-login>
+</div>
+
+<!-- Signup Component with modal styling -->
+<!-- // GREEN: Added modal-container class to position the signup form properly -->
+<div class="modal-container" *ngIf="showSignup">
+  <app-signup 
+    (closeSignup)="CloseSignup()" 
+    (switchToLogin)="SwitchToLogin()">
+  </app-signup>
+</div>
+
+<div class="app-container">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Secure Healthcare on the Blockchain</h1>
+        <p>MediTech provides a secure, transparent platform for managing healthcare records using blockchain technology and IPFS for distributed storage.</p>
+        <div class="hero-buttons">
+          <button class="btn btn-primary" (click)="toggleSignup()">Get Started</button>
+          <button class="btn btn-secondary" (click)="toggleLogin()">Login</button>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="card-logo">
+          <span class="logo-circle">M</span>
+          <span class="logo-text">MediTech</span>
+        </div>
+        <div class="card-content"></div>
+        <div class="card-footer">
+          <span class="verified-text">Verified on blockchain <i class="check-icon"></i></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="how-it-works-section">
+    <div class="container">
+      <h2>How MediTech Works</h2>
+      <p class="section-description">
+        Our secure platform combines blockchain technology with IPFS distributed storage to
+        keep your medical records safe, accessible, and tamper-proof.
+      </p>
+
+      <div class="features-container">
+        <div class="feature-card">
+          <div class="feature-icon blue">
+            <i class="document-icon"></i>
+          </div>
+          <h3>Secure Data Storage</h3>
+          <p>
+            Medical records are encrypted and stored on IPFS, a distributed file system that
+            ensures your data is secure and always available.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon yellow">
+            <i class="blockchain-icon"></i>
+          </div>
+          <h3>Blockchain Verification</h3>
+          <p>
+            Every record is verified on the blockchain, creating an immutable audit trail that
+            guarantees data integrity and authenticity.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon green">
+            <i class="access-icon"></i>
+          </div>
+          <h3>Controlled Access</h3>
+          <p>
+            You control who can access your medical data. Grant and revoke permissions to
+            healthcare providers with confidence.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Section -->
+  <section class="why-choose-section">
+    <div class="container">
+      <div class="why-choose-content">
+        <h2>Why Choose MediTech</h2>
+        <ul class="benefits-list">
+          <li>
+            <i class="check-mark"></i>
+            Enhanced security with distributed storage and blockchain verification
+          </li>
+          <li>
+            <i class="check-mark"></i>
+            Seamless sharing between healthcare providers with permission controls
+          </li>
+          <li>
+            <i class="check-mark"></i>
+            Immutable audit trail for complete transparency and trust
+          </li>
+          <li>
+            <i class="check-mark"></i>
+            Decentralized system resistant to single points of failure
+          </li>
+          <li>
+            <i class="check-mark"></i>
+            User-friendly interface that makes health data management simple
+          </li>
+        </ul>
+      </div>
+      <div class="security-card">
+        <div class="security-icon">
+          <i class="shield-icon"></i>
+        </div>
+        <h3>100% Secure</h3>
+        <p>
+          Your data is protected by cutting-edge blockchain and cryptographic technology.
+        </p>
+        <button class="btn btn-primary" (click)="toggleSignup()">Get Started Today</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <div class="logo">
+            <span class="logo-circle">M</span>
+            <span class="logo-text">MediTech</span>
+          </div>
+          <p>Secure healthcare data management powered by blockchain technology.</p>
+        </div>
+
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>Platform</h4>
+            <ul>
+              <li><a href="#">How it Works</a></li>
+              <li><a href="#">Security</a></li>
+              <li><a href="#">Blockchain</a></li>
+              <li><a href="#">IPFS Storage</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h4>Support</h4>
+            <ul>
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">FAQs</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h4>Stay Updated</h4>
+            <p>Subscribe to our newsletter for the latest updates.</p>
+            <div class="newsletter-form">
+              <input type="email" placeholder="Your email" class="email-input">
+              <button class="btn btn-subscribe">Subscribe</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2025 MediTech. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</div>

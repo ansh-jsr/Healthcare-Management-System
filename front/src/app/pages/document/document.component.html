@@ -1,0 +1,152 @@
+<div class="medical-records-container">
+  <!-- Header -->
+  <div class="header">
+    <h2>Medical Records Status</h2>
+    <button class="refresh-btn" (click)="refreshRecords()" [disabled]="loading">
+      <i class="fas fa-sync-alt" [class.rotating]="loading"></i>
+      Refresh
+    </button>
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="tab-navigation">
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'approved'"
+      (click)="switchTab('approved')">
+      <i class="fas fa-check-circle"></i>
+      Approved ({{approvedRecords.length}})
+    </button>
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'rejected'"
+      (click)="switchTab('rejected')">
+      <i class="fas fa-times-circle"></i>
+      Rejected ({{rejectedRecords.length}})
+    </button>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading medical records...</p>
+  </div>
+
+  <!-- Content Area -->
+  <div *ngIf="!loading" class="content-area">
+    
+    <!-- Approved Tab Content -->
+    <div *ngIf="activeTab === 'approved'" class="tab-content">
+      <div *ngIf="approvedRecords.length === 0" class="empty-state">
+        <i class="fas fa-clipboard-check"></i>
+        <h3>No Approved Records</h3>
+        <p>There are no approved medical records at the moment.</p>
+      </div>
+
+      <div *ngIf="approvedRecords.length > 0" class="records-grid">
+        <div 
+          *ngFor="let record of approvedRecords; trackBy: trackByRecordId" 
+          class="record-card approved-card">
+          
+          <div class="card-header">
+            <div class="patient-info">
+              <h4>{{record.patientName}}</h4>
+              <span class="patient-id">ID: {{record.patientId}}</span>
+            </div>
+            <span class="status-badge status-approved">
+              <i class="fas fa-check"></i>
+              Approved
+            </span>
+          </div>
+
+          <div class="card-body">
+            <div class="document-info">
+              <div class="info-row">
+                <span class="label">Document:</span>
+                <span class="value">{{record.documentName}}</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Type:</span>
+                <span class="value">{{record.documentType}}</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Uploaded:</span>
+                <span class="value">{{formatDate(record.uploadDate)}}</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Approved:</span>
+                <span class="value">{{formatDate(record.responseDate!)}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <button class="view-btn" (click)="viewDocument(record)">
+              <i class="fas fa-eye"></i>
+              View Document
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rejected Tab Content -->
+    <div *ngIf="activeTab === 'rejected'" class="tab-content">
+      <div *ngIf="rejectedRecords.length === 0" class="empty-state">
+        <i class="fas fa-clipboard-list"></i>
+        <h3>No Rejected Records</h3>
+        <p>There are no rejected medical records at the moment.</p>
+      </div>
+
+      <div *ngIf="rejectedRecords.length > 0" class="records-grid">
+        <div 
+          *ngFor="let record of rejectedRecords; trackBy: trackByRecordId" 
+          class="record-card rejected-card">
+          
+          <div class="card-header">
+            <div class="patient-info">
+              <h4>{{record.patientName}}</h4>
+              <span class="patient-id">ID: {{record.patientId}}</span>
+            </div>
+            <span class="status-badge status-rejected">
+              <i class="fas fa-times"></i>
+              Rejected
+            </span>
+          </div>
+
+          <div class="card-body">
+            <div class="document-info">
+              <div class="info-row">
+                <span class="label">Document:</span>
+                <span class="value">{{record.documentName}}</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Type:</span>
+                <span class="value">{{record.documentType}}</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Uploaded:</span>
+                <span class="value">{{formatDate(record.uploadDate)}}</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Rejected:</span>
+                <span class="value">{{formatDate(record.responseDate!)}}</span>
+              </div>
+              <div *ngIf="record.patientResponse" class="info-row rejection-row">
+                <span class="label">Reason:</span>
+                <span class="value rejection-reason">{{record.patientResponse}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <button class="view-btn" (click)="viewDocument(record)">
+              <i class="fas fa-eye"></i>
+              View Document
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

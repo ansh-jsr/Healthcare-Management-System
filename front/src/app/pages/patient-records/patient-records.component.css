@@ -1,0 +1,352 @@
+/* Global container styles */
+.container {
+  max-width: 1400px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1.4rem; /* Enlarged base text size */
+  
+}
+
+/* Header styles */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.header h1 {
+  font-size: 2.2rem; /* Enlarged header */
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+/* Card styles */
+mat-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+}
+
+/* Search field styles */
+.search-field {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.search-field mat-form-field {
+  width: 100%;
+  font-size: 1.05rem;
+}
+
+.search-field .mat-form-field-outline {
+  background: #f1f5f9;
+  border-radius: 8px;
+}
+
+.search-field .mat-form-field-outline-thick {
+  border-color: #22c55e; /* Green active border */
+}
+
+.search-field input {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.search-field mat-icon {
+  color: #64748b;
+  margin-right: 0.5rem;
+}
+
+.search-field::after {
+  content: '✖';
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 1rem;
+  display: none;
+}
+
+.search-field:hover::after {
+  display: block;
+}
+
+/* Table styles */
+table.mat-table {
+  width: 100%;
+  background: transparent;
+  border-collapse: separate;
+  border-spacing: 0 0.5rem;
+  font-size: 1.05rem;
+}
+
+th.mat-header-cell {
+  background: #f8fafc;
+  color: #1e293b;
+  font-weight: 600;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 1.2rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+tr.mat-row {
+  background: #ffffff;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+tr.mat-row:hover {
+  background: #f1f5f9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+td.mat-cell {
+  padding: 1.2rem;
+  font-size: 1.05rem;
+  color: #334155;
+  border-bottom: none;
+}
+
+/* Name cell with avatar */
+.name-cell {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.name-cell mat-icon.avatar {
+  background: #e0e7ff;
+  color: #6366f1;
+  border-radius: 50%;
+  width: 44px; /* Enlarged */
+  height: 44px; /* Enlarged */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem; /* Enlarged */
+}
+
+/* Status chip styles */
+mat-chip {
+  font-size: 1.3rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: 16px;
+  font-weight: 500;
+}
+
+mat-chip[color="primary"] {
+  background: #4caf50;
+  color: #4caf50;
+}
+
+
+
+/* Action buttons */
+button[mat-icon-button] {
+  color: #64748b;
+  transition: all 0.2s ease;
+}
+
+
+
+button[mat-icon-button] mat-icon {
+  font-size: 1.4rem; /* Slightly larger */
+}
+
+/* Paginator styles */
+mat-paginator {
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+mat-paginator .mat-paginator-container {
+  justify-content: space-between;
+}
+
+/* Loading skeleton */
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.loading mat-spinner {
+  width: 40px;
+  height: 40px;
+}
+
+/* Error message */
+.error-message {
+  color: #dc2626;
+  background: #fef2f2;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .header h1 {
+    font-size: 1.6rem;
+  }
+
+  .search-field {
+    max-width: 100%;
+  }
+
+  table.mat-table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  th.mat-header-cell,
+  td.mat-cell {
+    min-width: 120px;
+  }
+
+  [matColumnDef="contact"],
+  [matColumnDef="gender"],
+  [matColumnDef="lastVisit"] {
+    display: none;
+  }
+
+  tr.mat-row {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  td.mat-cell {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  td.mat-cell::before {
+    content: attr(data-label);
+    font-weight: 500;
+    color: #64748b;
+  }
+
+  .name-cell mat-icon.avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 1.3rem;
+  }
+
+  button[mat-icon-button] {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+  }
+}
+
+/* Accessibility enhancements */
+:host {
+  --contrast-ratio: 4.5:1;
+}
+
+button[mat-icon-button][aria-label]:hover::after {
+  content: attr(aria-label);
+  position: absolute;
+  top: -2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e293b;
+  color: #ffffff;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  z-index: 1000;
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+mat-card,
+.search-field,
+tr.mat-row {
+  animation: slideIn 0.3s ease-out;
+}
+
+
+
+
+
+
+/* Shift overall container content a bit right */
+.container {
+  padding-left: 2rem; /* Adjust as needed */
+}
+
+/* Ensure avatar + name are in a row */
+.name-cell-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* This handles spacing between avatar and name/divider */
+}
+
+/* Style avatar - medium size with space */
+.avatar {
+  background-color: #e0e7ff;
+  color: #3b82f6;
+  border-radius: 10%;
+  font-size: 1.1rem;      /* Medium text size */
+  padding: 6px;           /* Inner spacing */
+  width: 36px;            /* Medium width */
+  height: 36px;           /* Medium height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.5rem;   /* Space between avatar and next element */
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+
+

@@ -1,0 +1,202 @@
+<!-- SUCCESS/ERROR MESSAGES -->
+<div *ngIf="successMessage" class="success-message"> 
+  ✅ {{ successMessage }}
+</div>
+
+<div *ngIf="errorMessage" class="error-message">
+  ❌ {{ errorMessage }}
+</div>
+
+<div class="container">
+  <!-- Book Appointment Section -->
+  <section class="book-appointment card" role="region" aria-labelledby="book-appointment">
+    <h2 id="book-appointment">Book Appointment</h2>
+    <form class="appointment-form" aria-label="Book Appointment Form" (ngSubmit)="bookAppointment()" #appointmentForm="ngForm">
+      <div class="form-group">
+        <label for="patientName">Patient Name</label>
+        <input
+          id="patientName"
+          type="text"
+          [value]="loggedInUserName"
+          readonly
+          aria-describedby="patientNameHelp"
+        />
+        <small id="patientNameHelp">Your name is automatically filled from your profile.</small>
+      </div>
+      
+      <!-- 🆕 ADDED: Appointment Type Selection -->
+      <div class="form-group">
+        <label for="appointmentType">Appointment Type</label>
+        <select
+          id="appointmentType"
+          name="appointmentType"
+          [(ngModel)]="newAppointment.appointmentType"
+          required
+          aria-required="true"
+          #appointmentType="ngModel"
+        >
+          <option value="" disabled>Select appointment type</option>
+          <option value="Follow Up">Follow Up</option>
+          <option value="Consultation">Consultation</option>
+          <option value="Check-Up">Check-Up</option>
+          <option value="Review">Review</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="appointmentDate">Date</label>
+        <input
+          id="appointmentDate"
+          type="date"
+          [min]="minDate"
+          [(ngModel)]="newAppointment.date"
+          (change)="loadTimeSlots()"
+          required
+          aria-required="true"
+          name="appointmentDate"
+          #appointmentDate="ngModel"
+        />
+      </div>
+      <div class="form-group">
+        <label for="timeSlot">Time Slot</label>
+        <select
+          id="timeSlot"
+          [(ngModel)]="newAppointment.time"
+          required
+          aria-required="true"
+          name="timeSlot"
+          #timeSlot="ngModel"
+        >
+          <option value="" disabled>Select a time slot</option>
+          <option
+            *ngFor="let slot of availableTimeSlots"
+            [value]="slot"
+            [disabled]="!isSlotAvailable(slot)"
+          >
+            {{ slot }} {{ isSlotAvailable(slot) ? '' : '(Unavailable)' }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="doctor">Doctor</label>
+        <select
+          id="doctor"
+          [(ngModel)]="newAppointment.doctor"
+          required
+          aria-required="true"
+          name="doctor"
+          #doctor="ngModel"
+        >
+          <option [ngValue]="null" disabled>Select Doctor</option>
+          <option *ngFor="let doctor of doctors" [ngValue]="doctor._id">{{ doctor.name }}</option>
+        </select>
+      </div>
+      <button
+        class="appointment"
+        type="submit"
+        [disabled]="!newAppointment.date || !newAppointment.time || !newAppointment.doctor || !newAppointment.appointmentType"
+        aria-label="Book Appointment"
+      >
+        Book Appointment
+      </button>
+    </form>
+  </section>
+</div>
+
+<!-- View Appointments Section -->
+<section class="view-appointments" role="region" aria-labelledby="view-appointments">
+  <h2 id="view-appointments" class="main-heading">Your Appointments</h2>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab" [class.active]="activeTab === 'upcoming'" (click)="activeTab = 'upcoming'">
+      📅 Upcoming ({{ upcomingAppointments.length }})
+    </div>
+    <div class="tab" [class.active]="activeTab === 'past'" (click)="activeTab = 'past'">
+      ✅ Past ({{ pastAppointments.length }})
+    </div>
+  </div>
+
+  <!-- Appointments Content -->
+  <div class="appointments-grid">
+    <!-- Upcoming Appointments -->
+    <div class="appointments-card" *ngIf="activeTab === 'upcoming'">
+      <div class="appointments-list">
+        <div *ngIf="upcomingAppointments.length === 0" class="no-appointments" aria-label="No upcoming appointments found">
+          <span class="empty-icon" aria-hidden="true">📋</span>
+          <h3 class="empty-heading">No upcoming appointments found</h3>
+          <p class="empty-subtext">You haven't scheduled any upcoming appointments yet.</p>
+        </div>
+        <div class="grid" *ngIf="upcomingAppointments.length > 0">
+          <div class="card" *ngFor="let appointment of upcomingAppointments">
+            <div class="card-header">
+              <div class="name-role">
+                <h3 class="name">{{ appointment.doctorName || 'Unknown Doctor' }}</h3>
+                <span class="role">Doctor</span>
+              </div>
+              <div class="status">🕒 Upcoming</div>
+            </div>
+            <div class="card-body">
+              <!-- 🆕 ADDED: Appointment Type Display -->
+              <div class="detail-row">
+                <span class="icon">📋</span>
+                <span class="label">Type:</span>
+                <span class="value appointment-type">{{ appointment.appointmentType }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="icon">📅</span>
+                <span class="label">Date:</span>
+                <span class="value">{{ formatDate(appointment.date) }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="icon">⏰</span>
+                <span class="label">Time:</span>
+                <span class="value">{{ appointment.time }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Past Appointments -->
+    <div class="appointments-card" *ngIf="activeTab === 'past'">
+      <div class="appointments-list">
+        <div *ngIf="pastAppointments.length === 0" class="no-appointments" aria-label="No past appointments available">
+          <span class="empty-icon" aria-hidden="true">📚</span>
+          <h3 class="empty-heading">No past appointments</h3>
+          <p class="empty-subtext">You haven't completed any appointments yet.</p>
+        </div>
+        <div class="grid" *ngIf="pastAppointments.length > 0">
+          <div class="card" *ngFor="let appointment of pastAppointments">
+            <div class="card-header">
+              <div class="name-role">
+                <h3 class="name">{{ appointment.doctorName || 'Unknown Doctor' }}</h3>
+                <span class="role">Doctor</span>
+              </div>
+              <div class="status status-past">✅ Completed</div>
+            </div>
+            <div class="card-body">
+              <!-- 🆕 ADDED: Appointment Type Display -->
+              <div class="detail-row">
+                <span class="icon">📋</span>
+                <span class="label">Type:</span>
+                <span class="value appointment-type">{{ appointment.appointmentType || 'General' }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="icon">📅</span>
+                <span class="label">Date:</span>
+                <span class="value">{{ formatDate(appointment.date) }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="icon">⏰</span>
+                <span class="label">Time:</span>
+                <span class="value">{{ appointment.time }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,356 @@
+.layout-container {
+  height: 100vh;
+}
+
+.sidenav {
+  width: 260px;
+  transition: width 0.3s ease;
+  overflow-x: hidden;
+  background: linear-gradient(180deg, #f5f7fa 0%, #e4e8ec 100%);
+}
+
+.sidenav.collapsed {
+  width: 60px !important;
+}
+
+.sidebar-header {
+  background: linear-gradient(to right, #e3f2fd, #ffffff);; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 16px;
+  font-weight: bold;
+  color: #1976d2;
+  font-size: 24px;
+}
+
+.main-toolbar {
+  display: flex;
+  justify-content: space-between;
+  background: linear-gradient(to right,  #e3f2fd ,#bbdefb );
+  color: #0d47a1; 
+}
+
+.toolbar-title {
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+}
+
+.menu-icon {
+  margin-right: 16px;
+  font-size: 24px;
+  vertical-align: middle;
+   min-width: 24px;
+  text-align: center;
+}
+
+.sidenav.collapsed .menu-icon {
+  margin: auto;
+}
+
+.sidenav.collapsed .menu-text {
+  display: none;
+}
+
+.menu-text {
+  font-size: 16px;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 64px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.sidenav.collapsed .sidebar-header span {
+  display: none;
+}
+
+.sidenav.collapsed .sidebar-header mat-icon {
+  display: block;
+  font-size: 28px;
+}
+
+.main-content {
+  padding: 24px;
+  background-color: #f9fafb;
+  min-height: calc(100vh - 64px);
+}
+
+.active-link {
+  background-color: rgba(25, 118, 210, 0.1);
+  font-weight: bold;
+  border-left: 4px solid #1976d2; /* Optional left indicator */
+}
+
+.active-link .menu-icon,
+.active-link .menu-text {
+  color: #1976d2 !important;
+}
+
+
+.custom-divider {
+  margin-top: 5px; /* Adjust the value as needed */
+}
+
+.toolbar-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Adjust the value as needed */
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+
+
+
+
+/* Avatar Button */
+.avatar-btn {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  transition: background-color 0.3s ease;
+}
+
+/* Remove any extra outline or shadow on focus/active */
+.avatar-btn:focus,
+.avatar-btn:active {
+  outline: none;
+  box-shadow: none;
+  background-color: rgba(0, 0, 0, 0.05); /* Optional: subtle click effect */
+}
+
+
+
+/* Avatar Circle */
+.avatar-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #3f51b5;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* Dropdown Menu */
+.user-dropdown {
+  margin-top: 12px !important;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: #ffffff;
+  min-width: 220px;
+  overflow: hidden;
+}
+
+/* User Info Section */
+.user-info {
+  padding: 16px;
+  text-align: left;
+  background-color: #f8f9fa;
+}
+
+::ng-deep .cdk-overlay-pane {
+  margin-top: 16px !important; /* Adjust according to toolbar height */
+}
+
+
+.user-info strong {
+
+  display: block;
+  font-size: 16px;
+  color: #333;
+}
+
+.user-info .email {
+  font-size: 14px;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* Divider */
+mat-divider {
+  margin: 8px 0;
+  border-color: #e0e0e0;
+}
+
+/* Menu Items */
+.mat-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+.mat-menu-item:hover {
+  background-color: #f0f2f5;
+}
+
+/* Logout Button */
+.mat-menu-item.logout {
+  color: #d32f2f;
+}
+
+.mat-menu-item.logout mat-icon {
+  margin-right: 8px;
+  font-size: 20px;
+}
+
+/* Ensure Dropdown is Below Navbar */
+.cdk-overlay-pane {
+  margin-top: 56px !important; /* Adjust based on navbar height */
+}
+
+
+::ng-deep .mat-drawer.sidenav {
+  width: 260px;
+  transition: width 0.3s ease;
+  overflow-x: hidden;
+}
+
+::ng-deep .mat-drawer.sidenav.collapsed {
+  width: 60px !important;
+}
+
+
+::ng-deep .sidenav.collapsed .menu-text {
+  display: none;
+}
+::ng-deep .sidenav.collapsed .menu-icon {
+  margin: auto;
+}
+
+
+.notification-button {
+  position: relative;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #ff4081;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: 48px;
+  right: 60px;
+  width: 320px;
+  max-height: 400px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.notification-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.notification-list {
+  overflow-y: auto;
+  max-height: 300px;
+}
+
+.notification-item {
+  display: flex;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f5f5f5;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.notification-item:hover {
+  background-color: #f9f9f9;
+}
+
+.notification-item.unread {
+  background-color: #edf7ff;
+}
+
+.notification-icon {
+  margin-right: 16px;
+  color: #5c6bc0;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-content h4 {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.notification-content p {
+  margin: 0 0 4px 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.notification-time {
+  font-size: 12px;
+  color: #999;
+}
+
+.notification-footer {
+  padding: 8px 16px;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.no-notifications {
+  padding: 24px 16px;
+  text-align: center;
+  color: #999;
+}

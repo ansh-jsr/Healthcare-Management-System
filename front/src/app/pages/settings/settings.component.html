@@ -1,0 +1,117 @@
+<!-- This is the HTML structure for the Settings page -->
+<!-- Each section is broken into mat-cards and form elements exactly matching the React counterpart -->
+
+<!-- Root wrapper -->
+<div class="settings-wrapper">
+  <h1 class="mat-h4">Settings</h1>
+
+  <!-- Success Alert -->
+  <mat-card *ngIf="success" class="mb-3 success-alert">
+    <mat-card-content>
+      <mat-icon color="primary">check_circle</mat-icon>
+      <span>Settings saved successfully!</span>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Settings Grid -->
+  <div class="settings-grid">
+
+    <!-- Notifications Settings -->
+    <mat-card>
+      <mat-card-title>
+        <mat-icon class="blue-icon" color="primary">notifications</mat-icon>
+        Notifications
+      </mat-card-title>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <mat-slide-toggle color="primary" [(ngModel)]="settings.emailNotifications" name="emailNotifications">Email Notifications</mat-slide-toggle>
+        <p class="caption">Receive notifications about your account and patient activities via email.</p>
+
+        <mat-slide-toggle color="primary" [(ngModel)]="settings.smsNotifications" name="smsNotifications">SMS Notifications</mat-slide-toggle>
+        <p class="caption">Receive important notifications via SMS.</p>
+
+        <mat-slide-toggle color="primary" [(ngModel)]="settings.pushNotifications" name="pushNotifications">Browser Push Notifications</mat-slide-toggle>
+        <p class="caption">Receive notifications on your device when the app is not open.</p>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Privacy Settings -->
+    <mat-card>
+      <mat-card-title>
+        <mat-icon class="blue-icon" color="primary">visibility_off</mat-icon>
+        Privacy
+      </mat-card-title>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <mat-slide-toggle color="primary" [(ngModel)]="settings.showProfileToOthers" name="showProfileToOthers">Show my profile to other healthcare providers</mat-slide-toggle>
+        <p class="caption">Allow other authorized healthcare providers to view your profile information.</p>
+
+        <mat-slide-toggle color="primary" [(ngModel)]="settings.shareActivityData" name="shareActivityData">Share activity data for analytics</mat-slide-toggle>
+        <p class="caption">Share anonymized usage data to help improve the platform.</p>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Security Settings -->
+    <mat-card>
+      <mat-card-title>
+        <mat-icon class="blue-icon" color="primary">security</mat-icon>
+        Security
+      </mat-card-title>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <mat-slide-toggle color="primary" [(ngModel)]="settings.twoFactorAuth" name="twoFactorAuth">Two-factor authentication</mat-slide-toggle>
+        <p class="caption">Add an extra layer of security to your account by requiring a second verification step.</p>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Display Settings -->
+    <mat-card>
+      <mat-card-title>
+        <mat-icon class="blue-icon" color="primary">palette</mat-icon>
+        Display
+      </mat-card-title>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <label class="sub-label">Theme</label>
+        <mat-radio-group color="primary" [(ngModel)]="settings.theme" name="theme" class="row-group">
+          <mat-radio-button value="light">Light</mat-radio-button>
+          <mat-radio-button value="dark">Dark</mat-radio-button>
+        </mat-radio-group>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Language</mat-label>
+          <mat-select [(ngModel)]="settings.language" name="language">
+            <mat-option value="en">English</mat-option>
+            <mat-option value="es">Spanish</mat-option>
+            <mat-option value="fr">French</mat-option>
+            <mat-option value="de">German</mat-option>
+            <mat-option value="zh">Chinese</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Data Management -->
+    <mat-card>
+      <mat-card-title>
+        <mat-icon class="blue-icon" color="primary">storage</mat-icon>
+        Data Management
+      </mat-card-title>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <mat-slide-toggle  color="primary" [(ngModel)]="settings.autoBackup" name="autoBackup">Automatic data backup</mat-slide-toggle>
+        <p class="caption">Automatically create backups of your data.</p>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+
+  <!-- Save Button -->
+  <div class="save-button-wrapper">
+    <button mat-raised-button color="primary" (click)="handleSaveSettings()" [disabled]="loading">
+      <mat-icon *ngIf="!loading">save</mat-icon>
+      <mat-progress-spinner *ngIf="loading" diameter="20" mode="indeterminate"></mat-progress-spinner>
+      {{ loading ? 'Saving...' : 'Save Settings' }}
+    </button>
+  </div>
+</div>

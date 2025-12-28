@@ -1,0 +1,87 @@
+<div class="signup-container">
+  <button mat-icon-button (click)="hideSignup()" aria-label="Close" class="close-button">
+    <mat-icon>close</mat-icon>
+  </button>
+  <div class="header">
+    <h2>Create Account</h2>
+  </div>
+  <h3>Account Information</h3>
+  <div *ngIf="successMessage" class="success-message">
+  ✅ {{ successMessage }}
+</div>
+ <div *ngIf="errorMessage" class="error-message">
+  ❌ {{ errorMessage }}
+</div>
+
+  <!-- MetaMask Connection Section -->
+  <div class="wallet-section" [class.error]="!walletAddress && errorMessage">
+    <div *ngIf="!walletAddress" class="wallet-connect">
+      <button 
+        type="button" 
+        mat-raised-button 
+        color="primary" 
+        (click)="connectWallet()" 
+        [disabled]="walletLoading"
+        class="wallet-button">
+        <mat-icon *ngIf="walletLoading">hourglass_empty</mat-icon>
+        <span *ngIf="!walletLoading">🦊 Connect MetaMask</span>
+        <span *ngIf="walletLoading">Connecting...</span>
+      </button>
+    </div>
+    <div *ngIf="walletAddress" class="wallet-connected">
+      <div class="wallet-address">
+        <mat-icon class="success-icon">check_circle</mat-icon>
+        <span>Wallet Connected and Verified</span> 
+        </div>
+        <div class="wallet-address">
+        {{ walletAddress | slice:0:6 }}...{{ walletAddress | slice:-4 }}
+      </div>
+        <button type="button" class="disconnect-btn" (click)="disconnectWallet()">
+        Disconnect Wallet
+      </button>
+    </div>
+  </div>
+
+  <form #signupForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <input type="hidden" name="walletAddress" [(ngModel)]="walletAddress" required>
+      <input type="text" id="Name" [(ngModel)]="name" name="Name" placeholder="Name *" required>
+    </div>
+    <div class="form-group">
+      <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Email Address *" required>
+    </div>
+    <div class="form-group">
+      <select id="role" [(ngModel)]="role" name="role" required>
+        <option value="" disabled selected>Role</option>
+        <option value="patient">Patient</option>
+        <option value="doctor">Doctor</option>
+      </select>
+    </div>
+     
+    <div *ngIf="role === 'doctor'">
+      <div class="form-group space">
+        <input type="text" id="specialization" [(ngModel)]="specialization" name="specialization" placeholder="Specialization *" required>
+      </div>
+      <div class="form-group">
+        <input type="text" id="license" [(ngModel)]="license" name="license" placeholder="License *" required>
+      </div>
+    </div>
+          
+    <div class="form-group password-group">
+      <input [type]="showPassword ? 'text' : 'password'" id="password" [(ngModel)]="password" name="password" placeholder="Password *" required>
+      <button type="button" class="password-toggle" (click)="togglePasswordVisibility()">
+        <span class="material-icons">{{ showPassword ? 'visibility_off' : 'visibility' }}</span>
+      </button>
+    </div>
+    <div class="form-group password-group">
+      <input [type]="showPassword ? 'text' : 'password'" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" placeholder="Confirm Password *" required>
+      <button type="button" class="password-toggle" (click)="togglePasswordVisibility()">
+        <span class="material-icons">{{ showPassword ? 'visibility_off' : 'visibility' }}</span>
+      </button>
+    </div>
+    <button mat-raised-button type="submit" class="signup-button" [disabled]="!signupForm.valid">
+      Register
+    </button>
+    <p class="signin-link">Already have an account? <a href="#" (click)="switchToLoginEvent()">Sign in here</a></p>
+  </form>
+</div>
